@@ -1,0 +1,14 @@
+{
+  "name": "covid-19-downloader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cloud-config-client": "^1.5.2",
+    "env-cmd": "^10.1.0",
+    "moment": "^2.26.0",
+    "mongodb": "^3.5.8",
+    "trace-error": "^1.0.3"
+  }
+}
