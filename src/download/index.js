@@ -24,12 +24,16 @@ const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 
 const downloadDataToMongo = async () => {
+    console.log('Beginning download of all data to MongoDB');
     try {
         const [ecdcData, covidProjData, censusData] = await Promise.all([
             downloadEcdcData(),
             downloadCovidProjectData(),
             downloadCensusData()
         ]);
+
+        console.log('Running calculations on data');
+
         const countries = createCountryList(ecdcData.data);
         const states = createStateList(covidProjData.data);
 
@@ -47,6 +51,7 @@ const downloadDataToMongo = async () => {
         await setStateHistoricalData(stateHistoricalData);
         await setStateList(states);
         await setMetadata(new Date());
+        console.log('All data written to MongoDB');
     } catch (ex) {
         throw new TraceError('Error downloading data and/or inserting into MongoDB', ex);
     }
