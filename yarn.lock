@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@craigmiller160/covid-19-config-mongo@file:.yalc/@craigmiller160/covid-19-config-mongo":
+  version "1.0.0-39ff6a7f"
+  dependencies:
+    cloud-config-client "^1.5.2"
+    mongodb "^3.5.8"
+    retry "^0.12.0"
+    shell-env "^3.0.0"
+
 ansi-regex@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.1.0.tgz#8b9f8f08cf1acb843756a839ca8c7e3168c51997"
