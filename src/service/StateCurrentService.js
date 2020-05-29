@@ -1,4 +1,4 @@
-const { connect } = require('../mongo');
+const { connect } = require('@craigmiller160/covid-19-config-mongo');
 const TraceError = require('trace-error');
 
 const COLLECTION = 'state_current';

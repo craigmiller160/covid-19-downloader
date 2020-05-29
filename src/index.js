@@ -1,4 +1,4 @@
-const { cloudConfig } = require('./config');
+const { cloudConfig } = require('@craigmiller160/covid-19-config-mongo');
 const downloadDataToMongo = require('./download');
 
 const INTERVAL = 30000; // TODO make this configurable
