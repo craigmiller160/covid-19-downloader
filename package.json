@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "env-cmd node ./src",
+    "start:prod": "node ./src",
     "build": "node scripts/build"
   },
   "dependencies": {
