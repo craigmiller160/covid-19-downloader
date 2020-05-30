@@ -8,7 +8,6 @@
     "build": "node scripts/build"
   },
   "dependencies": {
-    "@craigmiller160/covid-19-config-mongo": "file:.yalc/@craigmiller160/covid-19-config-mongo",
     "axios": "^0.19.2",
     "cloud-config-client": "^1.5.2",
     "env-cmd": "^10.1.0",
