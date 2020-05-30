@@ -9,7 +9,7 @@
     "build": "node scripts/build"
   },
   "dependencies": {
-    "@craigmiller160/covid-19-config-mongo": "^1.0.0",
+    "@craigmiller160/covid-19-config-mongo": "^1.1.0",
     "axios": "^0.19.2",
     "cloud-config-client": "^1.5.2",
     "env-cmd": "^10.1.0",
