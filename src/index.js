@@ -1,11 +1,12 @@
 const { cloudConfig } = require('@craigmiller160/covid-19-config-mongo');
 const downloadDataToMongo = require('./download');
+const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
 const INTERVAL = process.env.DOWNLOAD_INTERVAL_HRS * 60 * 60 * 1000;
 
 const handleError = (ex) => {
-    console.log('Error downloading data to MongoDB');
-    console.log(ex);
+    logger.error('Error downloading data to MongoDB');
+    logger.error(ex);
 };
 
 const runDownloadLoop = async () => {
@@ -24,10 +25,10 @@ const runDownloadLoop = async () => {
     }, INTERVAL);
 };
 
-console.log('Starting application');
+logger.info('Starting application');
 cloudConfig.init()
     .then(runDownloadLoop)
     .catch((ex) => {
-        console.log('Critical error starting application');
-        console.log(ex);
+        logger.error('Critical error starting application');
+        logger.error(ex);
     });

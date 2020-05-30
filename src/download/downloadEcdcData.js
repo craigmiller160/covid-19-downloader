@@ -1,11 +1,12 @@
 const axios = require('axios');
 const moment = require('moment');
 const TraceError = require('trace-error');
+const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
 const url = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/json/';
 
 const downloadEcdcData = async () => {
-    console.log('Attempting to download ECDC data');
+    logger.info('Attempting to download ECDC data');
     try {
         const res = await axios.get(url);
         const newData = res.data.records.map((record) => ({
