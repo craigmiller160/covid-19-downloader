@@ -1,7 +1,7 @@
 const { cloudConfig } = require('@craigmiller160/covid-19-config-mongo');
 const downloadDataToMongo = require('./download');
 
-const INTERVAL = 30000; // TODO make this configurable
+const INTERVAL = process.env.DOWNLOAD_INTERVAL_HRS * 60 * 60 * 1000;
 
 const handleError = (ex) => {
     console.log('Error downloading data to MongoDB');
