@@ -9,14 +9,10 @@
     "build": "node scripts/build"
   },
   "dependencies": {
-    "@craigmiller160/covid-19-config-mongo": "^1.1.0",
+    "@craigmiller160/covid-19-config-mongo": "^1.1.1",
     "axios": "^0.19.2",
-    "cloud-config-client": "^1.5.2",
     "env-cmd": "^10.1.0",
     "moment": "^2.26.0",
-    "mongodb": "^3.5.8",
-    "retry": "^0.12.0",
-    "shell-env": "^3.0.0",
     "trace-error": "^1.0.3"
   },
   "devDependencies": {
