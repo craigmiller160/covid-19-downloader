@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@craigmiller160/covid-19-config-mongo@^1.1.1":
-  version "1.1.1"
-  resolved "http://localhost:30000/@craigmiller160%2fcovid-19-config-mongo/-/covid-19-config-mongo-1.1.1.tgz#ce9e49667ae5e886b69493a75e7d90e24886b51b"
-  integrity sha512-2a//htwLIg3X6iqJptIxqm5Dk83YEpjb/gxCR5Qa+3RiXuKtYNCOTX0Jd+m0OK+PIAabrODW6W+E112Yq6G13Q==
+"@craigmiller160/covid-19-config-mongo@^1.2.0.beta.1":
+  version "1.2.0-beta.1"
+  resolved "http://localhost:30000/@craigmiller160%2fcovid-19-config-mongo/-/covid-19-config-mongo-1.2.0-beta.1.tgz#d9d738ac48809e8ef84628fd0b1247d9390902b7"
+  integrity sha512-tODjhNuF0Af2KOFf7LW85qlH5DnP6roR9Eg18OggKS9hNJtKKtcrz3w8Rtn/PhCu3mozCOxfYxrL2DOn15z/xg==
   dependencies:
     cloud-config-client "^1.5.2"
     mongodb "^3.5.8"
