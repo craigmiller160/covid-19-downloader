@@ -7,7 +7,7 @@ const version = packageJson.version;
 const name = packageJson.name.replace('@craigmiller160/', '');
 
 const cwd = process.cwd();
-const buildDirPath = path.resolve(cwd, 'build');
+const buildDirPath = path.resolve(cwd, 'deploy/build');
 const outputFilePath = path.resolve(cwd, `build/${name}-${version}.zip`);
 
 const deleteBuildDir = () => {
@@ -28,7 +28,7 @@ const createBuildDir = () => {
 };
 
 const createArchive = () => {
-    const output = fs.createWriteStream(path.resolve(cwd, `build/${name}-${version}.zip`));
+    const output = fs.createWriteStream(path.resolve(cwd, buildDirPath, `${name}-${version}.zip`));
     const archive = archiver('zip');
 
     archive.on('warning', (err) => {
