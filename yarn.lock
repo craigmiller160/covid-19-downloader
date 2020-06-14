@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@craigmiller160/covid-19-config-mongo@^1.2.0.beta.2":
+"@craigmiller160/covid-19-config-mongo@1.2.0.beta.2":
   version "1.2.0-beta.2"
   resolved "http://localhost:30000/@craigmiller160%2fcovid-19-config-mongo/-/covid-19-config-mongo-1.2.0-beta.2.tgz#63cbb9a57c0119c44658c3ac1cc4d1889f1e0d5a"
   integrity sha512-dHS1OHw08VdEEq81gLh1XGk7JfUJfzBfP5SHUQTKpQMvbYoxaSTOGzSEgZpXfiLVWQxOCuVtekSEOAr7dUEZfw==
