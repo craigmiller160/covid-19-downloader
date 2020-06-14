@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: covid-19-downloader-configmap
+  name: covid-19-downloader-config
 data:
   ACTIVE_PROFILE: prod
   DOWNLOAD_INTERVAL_HRS: 3
