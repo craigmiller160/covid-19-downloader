@@ -5,6 +5,7 @@ version=$(cat package.json | grep version | sed 's/^\s*"version":\s\?"//g' | sed
 
 echo "Building $name:$version"
 
+cd deploy
 sudo docker build \
   --network=host \
   -t localhost:32000/$name:$version \
