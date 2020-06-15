@@ -12,10 +12,8 @@ sudo docker build \
   --network=host \
   -t $tag \
   .
-sudo docker push $tag
+sudo docker push -f $tag
 
 sudo microk8s kubectl apply -f configmap.yml
 sudo microk8s kubectl apply -f deployment.yml
 sudo microk8s kubectl rollout restart deployment covid-19-downloader
-
-# TODO the image in the registry doesn't get overwritten
