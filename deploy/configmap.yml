@@ -8,3 +8,4 @@ data:
   MONGO_DATABASE: covid_19
   LOGGER_LEVEL: info
   USE_CONFIG_SERVER: "false"
+  PORT: 3000
