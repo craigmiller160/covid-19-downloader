@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: covid-19-downloader-config
+data:
+  ACTIVE_PROFILE: prod
+  DOWNLOAD_INTERVAL_HRS: "3"
+  MONGO_DATABASE: covid_19
+  LOGGER_LEVEL: info
+  USE_CONFIG_SERVER: "false"
+  PORT: "3000"

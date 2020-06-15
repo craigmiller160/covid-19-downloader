@@ -3,6 +3,6 @@
 *.iml
 yarn-error.log
 node_modules
-build
+deploy/build
 .yalc
 yalc.lock

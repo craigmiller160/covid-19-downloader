@@ -1,5 +1,5 @@
-const { cloudConfig } = require('@craigmiller160/covid-19-config-mongo');
 const downloadDataToMongo = require('./download');
+require('./express');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
 const INTERVAL = process.env.DOWNLOAD_INTERVAL_HRS * 60 * 60 * 1000;
@@ -26,8 +26,7 @@ const runDownloadLoop = async () => {
 };
 
 logger.info('Starting application');
-cloudConfig.init()
-    .then(runDownloadLoop)
+runDownloadLoop()
     .catch((ex) => {
         logger.error('Critical error starting application');
         logger.error(ex);

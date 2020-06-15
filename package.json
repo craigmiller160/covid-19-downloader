@@ -1,6 +1,6 @@
 {
-  "name": "covid-19-downloader",
-  "version": "1.2.0-beta",
+  "name": "@craigmiller160/covid-19-downloader",
+  "version": "1.2.0-beta.2",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -9,9 +9,10 @@
     "build": "node scripts/build"
   },
   "dependencies": {
-    "@craigmiller160/covid-19-config-mongo": "^1.1.1",
+    "@craigmiller160/covid-19-config-mongo": "1.2.0-beta.5",
     "axios": "^0.19.2",
     "env-cmd": "^10.1.0",
+    "express": "^4.17.1",
     "moment": "^2.26.0",
     "trace-error": "^1.0.3"
   },

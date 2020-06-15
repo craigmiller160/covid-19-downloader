@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: covid-19-downloader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: covid-19-downloader
+  template:
+    metadata:
+      labels:
+        app: covid-19-downloader
+    spec:
+      containers:
+        - name: covid-19-downloader
+          image: localhost:32000/covid-19-downloader:1.2.0-beta.2
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: mongodb-config
+            - configMapRef:
+                name: covid-19-downloader-config
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
+            initialDelaySeconds: 600
+            periodSeconds: 600
