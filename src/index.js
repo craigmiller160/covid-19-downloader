@@ -1,4 +1,5 @@
 const downloadDataToMongo = require('./download');
+require('./express');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
 const INTERVAL = process.env.DOWNLOAD_INTERVAL_HRS * 60 * 60 * 1000;
