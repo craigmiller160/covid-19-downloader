@@ -16,4 +16,4 @@ sudo docker push $tag
 
 sudo microk8s kubectl apply -f configmap.yml
 sudo microk8s kubectl apply -f deployment.yml
-sudo microk8s kubectl rollout restart covid-19-downloader
+sudo microk8s kubectl rollout restart deployment covid-19-downloader
