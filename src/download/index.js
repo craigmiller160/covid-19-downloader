@@ -24,38 +24,62 @@ const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
-const downloadDataToMongo = async () => {
-    logger.info('Beginning download of all data to MongoDB');
+const handleWorldData = async () => {
     try {
-        const [ecdcData, covidProjData, censusData] = await Promise.all([
-            downloadEcdcData(),
+        logger.info('Downloading world data');
+        const ecdcData = await downloadEcdcData();
+
+        logger.info('Running calculations on world data');
+
+        const countries = createCountryList(ecdcData.data);
+        const countryHistoricalData = calculateDoubling(calculateHistoricalTotals(ecdcData.data));
+        const worldHistoricalData = calculateDoubling(calculateHistoricalTotals(calculateWorldHistorical(countryHistoricalData)));
+        const countryCurrentData = addCountryDisplayLocation(calculatePerMillion(calculateGrandTotal(countryHistoricalData)));
+
+        logger.info('Writing world data to MongoDB');
+
+        await setCountryCurrentData(countryCurrentData);
+        await setCountryHistoricalData([...worldHistoricalData, ...countryHistoricalData]);
+        await setCountryList(countries);
+    } catch (ex) {
+        throw new TraceError('Error downloading or inserting into MongoDB world data', ex);
+    }
+};
+
+const handleStateData = async () => {
+    try {
+        logger.info('Downloading state data');
+        const [covidProjData, censusData] = await Promise.all([
             downloadCovidProjectData(),
             downloadCensusData()
         ]);
 
-        logger.info('Running calculations on data');
+        logger.info('Running calculations on state data');
 
-        const countries = createCountryList(ecdcData.data);
         const states = createStateList(covidProjData.data);
-
-        const countryHistoricalData = calculateDoubling(calculateHistoricalTotals(ecdcData.data));
         const stateHistoricalData = calculateDoubling(calculateHistoricalTotals(covidProjData.data));
-        const worldHistoricalData = calculateDoubling(calculateHistoricalTotals(calculateWorldHistorical(countryHistoricalData)));
-        const countryCurrentData = addCountryDisplayLocation(calculatePerMillion(calculateGrandTotal(countryHistoricalData)));
         const stateCurrentData = addStateDisplayLocation(calculatePerMillion(combinePopulationData(calculateGrandTotal(stateHistoricalData), censusData.data)));
 
-        logger.info('Writing data to MongoDB');
-        await setCountryCurrentData(countryCurrentData);
-        await setCountryHistoricalData([...worldHistoricalData, ...countryHistoricalData]);
-        await setCountryList(countries);
+        logger.info('Writing state data to MongoDB');
+
         await setStateCurrentData(stateCurrentData);
         await setStateHistoricalData(stateHistoricalData);
         await setStateList(states);
-        await setMetadata(new Date());
-        logger.info('All data written to MongoDB');
     } catch (ex) {
-        throw new TraceError('Error downloading data and/or inserting into MongoDB', ex);
+        throw new TraceError('Error downloading or inserting into MongoDB state data', ex);
     }
+};
+
+const downloadDataToMongo = async () => {
+    logger.info('Beginning download of all data to MongoDB');
+    const results = await Promise.allSettled([handleWorldData(), handleStateData()]);
+    results.forEach((result) => {
+        if (result.status === 'fulfilled') {
+            logger.info('Success'); // TODO need a better message
+        } else {
+            logger.error(result.reason);
+        }
+    });
 };
 
 module.exports = downloadDataToMongo;
