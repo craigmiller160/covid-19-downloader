@@ -18,7 +18,11 @@ const executeDownload = async (currentAttempt) => {
 const downloadCovidProjectData = async () => {
     logger.info('Attempting to download The COVID Project data.');
     try {
-        const data = await attempt(executeDownload);
+        const options = {
+            retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
+            minTimeout: process.env.DOWNLOAD_RETRY_WAIT
+        };
+        const data = await attempt(executeDownload, options);
         const newData = data.map((record) => ({
             date: moment(record.date, 'YYYYMMDD').toDate(),
             newCases: record.positiveIncrease || 0,
