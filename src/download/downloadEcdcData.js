@@ -13,24 +13,8 @@ const executeDownload = async (currentAttempt) => {
     if (res.data.map) {
         return res.data;
     }
-    throw new Error('ECDC API did not return valid response, may be down.');
+    throw new Error('ECDC API did not return a valid response, may be down.');
 };
-
-const attemptExecuteDownload = () => new Promise((resolve, reject) => {
-    const operation = retry.operation();
-
-    operation.attempt(async (currentAttempt) => {
-        try {
-            const data = await executeDownload(currentAttempt);
-            resolve(data);
-        } catch (ex) {
-            if (operation.retry(ex)) {
-                return;
-            }
-            reject(ex);
-        }
-    });
-});
 
 const downloadEcdcData = async () => {
     logger.info('Attempting to download ECDC data');
