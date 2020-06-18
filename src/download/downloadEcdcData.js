@@ -2,6 +2,7 @@ const axios = require('axios');
 const moment = require('moment');
 const TraceError = require('trace-error');
 const retry = require('retry');
+const { attempt } = require('./retryUtil');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
 const url = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/json/';
@@ -16,10 +17,7 @@ const executeDownload = async (currentAttempt) => {
 };
 
 const attemptExecuteDownload = () => new Promise((resolve, reject) => {
-    const operation = retry.operation({
-        retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
-        minTimeout: process.env.DOWNLOAD_RETRY_WAIT
-    });
+    const operation = retry.operation();
 
     operation.attempt(async (currentAttempt) => {
         try {
@@ -37,7 +35,11 @@ const attemptExecuteDownload = () => new Promise((resolve, reject) => {
 const downloadEcdcData = async () => {
     logger.info('Attempting to download ECDC data');
     try {
-        const data = await attemptExecuteDownload();
+        const options = {
+            retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
+            minTimeout: process.env.DOWNLOAD_RETRY_WAIT
+        };
+        const data = await attempt(executeDownload, options);
         const newData = data.records.map((record) => ({
             date: moment(record.dateRep, 'DD/MM/YYYY').toDate(),
             newCases: parseInt(record.cases),
