@@ -41,6 +41,7 @@ const handleWorldData = async () => {
         await setCountryCurrentData(countryCurrentData);
         await setCountryHistoricalData([...worldHistoricalData, ...countryHistoricalData]);
         await setCountryList(countries);
+        return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
         throw new TraceError('Error downloading or inserting into MongoDB world data', ex);
     }
@@ -65,6 +66,7 @@ const handleStateData = async () => {
         await setStateCurrentData(stateCurrentData);
         await setStateHistoricalData(stateHistoricalData);
         await setStateList(states);
+        return 'Successfully downloaded state data and inserted into MongoDB';
     } catch (ex) {
         throw new TraceError('Error downloading or inserting into MongoDB state data', ex);
     }
@@ -75,11 +77,17 @@ const downloadDataToMongo = async () => {
     const results = await Promise.allSettled([handleWorldData(), handleStateData()]);
     results.forEach((result) => {
         if (result.status === 'fulfilled') {
-            logger.info('Success'); // TODO need a better message
+            logger.info(result.value);
         } else {
             logger.error(result.reason);
         }
     });
+
+    try {
+        await setMetadata(new Date());
+    } catch (ex) {
+        throw new TraceError('Unable to update metadata after download', ex);
+    }
 };
 
 module.exports = downloadDataToMongo;
