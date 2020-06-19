@@ -10,7 +10,7 @@ const url = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/json/';
 const executeDownload = async (currentAttempt) => {
     logger.debug(`Attempt #${currentAttempt} to download ECDC data`);
     const res = await axios.get(url);
-    if (res.data.map) {
+    if (res.data.records) {
         return res.data;
     }
     throw new Error('ECDC API did not return a valid response, may be down.');
