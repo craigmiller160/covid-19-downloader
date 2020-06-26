@@ -30,7 +30,7 @@ const downloadEcdcData = async () => {
             newDeaths: parseInt(record.deaths),
             location: record.countriesAndTerritories,
             isState: false,
-            population: record.popData2018 ? parseInt(record.popData2018) : null
+            population: record.popData2019 ? parseInt(record.popData2019) : null
         }));
         return {
             data: newData
