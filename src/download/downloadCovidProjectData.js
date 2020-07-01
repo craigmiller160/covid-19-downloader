@@ -30,8 +30,10 @@ const downloadCovidProjectData = async () => {
             location: `${record.state}`,
             currentHospitalizations: record.hospitalizedCurrently,
             newTests: record.totalTestResultsIncrease,
-            newPositivePercent: ((record.positiveIncrease || 0) / record.totalTestResultsIncrease) * 100
+            newPositivePercent: ((record.positiveIncrease || 0) / record.totalTestResultsIncrease) * 100,
+            newHospitalized: record.hospitalizedIncrease
         }));
+
         return {
             data: newData
         };
