@@ -1,6 +1,6 @@
 {
   "name": "@craigmiller160/covid-19-downloader",
-  "version": "1.4.0",
+  "version": "1.5.0-beta",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
