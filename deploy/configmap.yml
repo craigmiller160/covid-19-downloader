@@ -4,6 +4,9 @@ metadata:
   name: covid-19-downloader-config
 data:
   MONGO_USER: mongo_root
+  MONGO_HOST: mongodb-service
+  MONGO_AUTH_DB: admin
+  MONGO_PORT: "27017"
   ACTIVE_PROFILE: prod
   DOWNLOAD_INTERVAL_HRS: "3"
   MONGO_DATABASE: covid_19
