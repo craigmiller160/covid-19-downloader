@@ -19,8 +19,6 @@ spec:
             - containerPort: 3000
           envFrom:
             - configMapRef:
-                name: mongodb-config
-            - configMapRef:
                 name: covid-19-downloader-config
           livenessProbe:
             httpGet:
