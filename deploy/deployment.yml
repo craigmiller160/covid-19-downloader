@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: covid-19-downloader
-          image: localhost:32000/covid-19-downloader:1.5.0-beta
+          image: localhost:32000/covid-19-downloader:1.4.2
           ports:
             - containerPort: 3000
           envFrom:
