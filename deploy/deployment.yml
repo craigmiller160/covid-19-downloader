@@ -19,9 +19,13 @@ spec:
             - containerPort: 3000
           envFrom:
             - configMapRef:
-                name: mongodb-config
-            - configMapRef:
                 name: covid-19-downloader-config
+          env:
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-root-password
+                  key: MONGO_ROOT_PASSWORD
           livenessProbe:
             httpGet:
               path: /healthcheck

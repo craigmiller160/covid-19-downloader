@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: covid-19-downloader-config
 data:
+  MONGO_USER: mongo_root
   ACTIVE_PROFILE: prod
   DOWNLOAD_INTERVAL_HRS: "3"
   MONGO_DATABASE: covid_19
