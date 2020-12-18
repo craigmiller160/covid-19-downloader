@@ -36,7 +36,10 @@ const setCountryList = async (countryList) => { // TODO delete this
 
 const clearCountries = async () => {
     try {
-
+        await connect(async (db) => {
+            await db.collection(COLLECTION)
+                .deleteMany();
+        });
     } catch (ex) {
         throw new TraceError('Error clearing countries', ex);
     }
@@ -44,7 +47,13 @@ const clearCountries = async () => {
 
 const addCountry = async (country) => {
     try {
-
+        await connect(async (db) => {
+            await db.collection(COLLECTION)
+                .insertOne({
+                    location: country.Slug,
+                    displayLocation: country.Country
+                });
+        });
     } catch (ex) {
         throw new TraceError('Error adding a country', ex);
     }

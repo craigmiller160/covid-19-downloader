@@ -69,7 +69,7 @@ const downloadCountryHistory = async (countryKey) => {
                 totalCases: record.Confirmed,
                 newDeaths: record.Deaths - lastRecord.totalDeaths,
                 totalDeaths: record.Deaths,
-                location: record.Country
+                location: countryKey
             };
             lastRecord = newRecord;
             return newRecord;

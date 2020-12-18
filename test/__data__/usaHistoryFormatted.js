@@ -21,7 +21,7 @@ module.exports = [
         date: new Date('2020-10-31T00:00:00Z'),
         totalCases: 10,
         totalDeaths: 1,
-        location: 'USA',
+        location: 'usa',
         newCases: 10,
         newDeaths: 1
     },
@@ -29,7 +29,7 @@ module.exports = [
         date: new Date('2020-11-01T00:00:00Z'),
         totalCases: 21,
         totalDeaths: 3,
-        location: 'USA',
+        location: 'usa',
         newCases: 11,
         newDeaths: 2
     },
@@ -37,7 +37,7 @@ module.exports = [
         date: new Date('2020-11-02T00:00:00Z'),
         totalCases: 40,
         totalDeaths: 10,
-        location: 'USA',
+        location: 'usa',
         newCases: 19,
         newDeaths: 7
     },
@@ -45,7 +45,7 @@ module.exports = [
         date: new Date('2020-11-03T00:00:00Z'),
         totalCases: 65,
         totalDeaths: 20,
-        location: 'USA',
+        location: 'usa',
         newCases: 25,
         newDeaths: 10
     }
