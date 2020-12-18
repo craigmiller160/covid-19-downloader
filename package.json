@@ -6,8 +6,8 @@
   "scripts": {
     "start": "env-cmd node ./src",
     "start:prod": "node ./src",
-    "build": "node scripts/build",
-    "test": "env-cmd jest"
+    "build": "jest && node scripts/build",
+    "test": "jest"
   },
   "dependencies": {
     "@craigmiller160/covid-19-config-mongo": "1.2.2",
