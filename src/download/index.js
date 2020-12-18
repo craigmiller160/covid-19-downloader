@@ -34,8 +34,8 @@ const {
 const path = require('path');
 const TraceError = require('trace-error');
 const { setCountryCurrentData } = require('../service/CountryCurrentService')
-const { setCountryHistoricalData } = require('../service/CountryHistoricalService');
-const { setCountryList } = require('../service/CountryListService');
+const { setCountryHistoricalData, clearCountryHistoricalData } = require('../service/CountryHistoricalService');
+const { setCountryList, addCountry, clearCountries } = require('../service/CountryListService');
 const { setStateCurrentData } = require('../service/StateCurrentService');
 const { setStateHistoricalData } = require('../service/StateHistoricalService');
 const { setStateList } = require('../service/StateListService');
@@ -69,7 +69,6 @@ const handleWorldDataOld = async () => { // TODO delete this
 const handleWorldData = async () => {
     try {
         logger.info('Downloading world data and writing to MongoDB');
-        // TODO clear old data
 
         const countries = await downloadCountryList();
         // TODO iterate over countries, add country to list, download and write country history data
