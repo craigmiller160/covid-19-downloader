@@ -19,11 +19,12 @@
 const axios = require('axios');
 const TraceError = require('trace-error');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
+const moment = require('moment');
 const { attempt } = require('./retryUtil');
 
 const BASE_URL = 'https://api.covid19api.com';
 const COUNTRIES_URI = '/countries';
-const COUNTRY_HISTORY = '/dayone/country/';
+const COUNTRY_HISTORY_URI = '/dayone/country/';
 
 const executeDownload = (url) => async (currentAttempt) => {
     logger.debug(`Attempt #${currentAttempt} to download COVID API data`);
@@ -52,7 +53,27 @@ const downloadCountryHistory = async (countryKey) => {
             retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
             minTimeout: process.env.DOWNLOAD_RETRY_WAIT
         };
-
+        const data = await attempt(executeDownload(`${BASE_URL}${COUNTRY_HISTORY_URI}${countryKey}`), options);
+        let lastRecord = {
+            newCases: 0,
+            totalCases: 0,
+            newDeaths: 0,
+            totalDeaths: 0,
+            location: '',
+            date: null
+        };
+        return data.map((record) => {
+            const newRecord = {
+                date: moment(record.Date).toDate(),
+                newCases: record.Confirmed - lastRecord.totalCases,
+                totalCases: record.Confirmed,
+                newDeaths: record.Deaths - lastRecord.totalDeaths,
+                totalDeaths: record.Deaths,
+                location: record.Country
+            };
+            lastRecord = newRecord;
+            return newRecord;
+        });
     } catch (ex) {
         throw new TraceError(`Unable to download COVID API country history data for ${countryKey}`, ex);
     }
