@@ -7,7 +7,7 @@
     "start": "env-cmd node ./src",
     "start:prod": "node ./src",
     "build": "node scripts/build",
-    "test": "jest"
+    "test": "env-cmd jest"
   },
   "dependencies": {
     "@craigmiller160/covid-19-config-mongo": "1.2.2",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "archiver": "^4.0.1",
+    "axios-mock-adapter": "^1.19.0",
     "jest": "^26.6.3",
     "jest-config": "^26.6.3"
   }

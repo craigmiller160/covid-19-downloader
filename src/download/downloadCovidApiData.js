@@ -81,5 +81,8 @@ const downloadCountryHistory = async (countryKey) => {
 
 module.exports = {
     downloadCountryList,
-    downloadCountryHistory
+    downloadCountryHistory,
+    BASE_URL,
+    COUNTRIES_URI,
+    COUNTRY_HISTORY_URI
 };

@@ -16,26 +16,5 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const { defaults } = require('jest-config');
-
-module.exports = {
-    ...defaults,
-    bail: true,
-    collectCoverage: true,
-    collectCoverageFrom: [
-        'test/**/*.js'
-    ],
-    modulePaths: [
-        '<rootDir>/src'
-    ],
-    testMatch: [
-        '<rootDir>/test/**/*.{test,Spec}.js'
-    ],
-    setupFilesAfterEnv: [
-        '<rootDir>/test/setup.js'
-    ],
-    moduleDirectories: [
-        'node_modules',
-        'src'
-    ]
-};
+process.env.DOWNLOAD_RETRY_ATTEMPTS = 5;
+process.env.DOWNLOAD_RETRY_WAIT = 10;

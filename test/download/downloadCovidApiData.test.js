@@ -16,13 +16,37 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const MockAdapter = require('axios-mock-adapter');
+const axios = require('axios');
+const {
+    downloadCountryList,
+    downloadCountryHistory,
+    BASE_URL,
+    COUNTRIES_URI,
+    COUNTRY_HISTORY_URI
+} = require('../../src/download/downloadCovidApiData');
+
+const mockApi = new MockAdapter(axios);
+
 describe('downloadCovidApiData', () => {
-    it('downloadCountryList', () => {
-        throw new Error();
+    beforeEach(() => {
+        mockApi.reset();
     });
 
-    it('downloadCountryList multiple attempts', () => {
-        throw new Error();
+    it('downloadCountryList', async () => {
+        mockApi.onGet(`${BASE_URL}${COUNTRIES_URI}`)
+            .reply(200, 'Countries Success');
+        const result = await downloadCountryList();
+        expect(result).toEqual('Countries Success');
+    });
+
+    it('downloadCountryList multiple attempts', async () => {
+        mockApi.onGet(`${BASE_URL}${COUNTRIES_URI}`)
+            .replyOnce(500, 'Error');
+        mockApi.onGet(`${BASE_URL}${COUNTRIES_URI}`)
+            .reply(200, 'Countries Success');
+        const result = await downloadCountryList();
+        expect(result).toEqual('Countries Success');
     });
 
     it('downloadCountryHistory', () => {
