@@ -26,8 +26,6 @@ const setCountryHistoricalData = async (countryData) => {
     try {
         await connect(async (db) => {
             await db.collection(COLLECTION)
-                .deleteMany();
-            await db.collection(COLLECTION)
                 .insertMany(countryData);
         });
     } catch (ex) {
@@ -35,6 +33,18 @@ const setCountryHistoricalData = async (countryData) => {
     }
 };
 
+const clearCountryHistoricalData = async () => {
+    try {
+        await connect(async (db) => {
+            await db.collection(COLLECTION)
+                .deleteMany();
+        });
+    } catch (ex) {
+        throw new TraceError('Error clearing historical country data', ex);
+    }
+};
+
 module.exports = {
-    setCountryHistoricalData
+    setCountryHistoricalData,
+    clearCountryHistoricalData
 };
