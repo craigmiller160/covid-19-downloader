@@ -46,5 +46,6 @@ const clearCountryHistoricalData = async () => {
 
 module.exports = {
     setCountryHistoricalData,
-    clearCountryHistoricalData
+    clearCountryHistoricalData,
+    COLLECTION
 };
