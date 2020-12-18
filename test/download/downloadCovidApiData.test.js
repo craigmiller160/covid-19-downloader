@@ -25,6 +25,8 @@ const {
     COUNTRIES_URI,
     COUNTRY_HISTORY_URI
 } = require('../../src/download/downloadCovidApiData');
+const useHistoryRaw = require('../__data__/usaHistoryRaw');
+const useHistoryFormatted = require('../__data__/usaHistoryFormatted');
 
 const mockApi = new MockAdapter(axios);
 
@@ -49,11 +51,21 @@ describe('downloadCovidApiData', () => {
         expect(result).toEqual('Countries Success');
     });
 
-    it('downloadCountryHistory', () => {
-        throw new Error();
+    it('downloadCountryHistory', async () => {
+        const countryKey = 'usa';
+        mockApi.onGet(`${BASE_URL}${COUNTRY_HISTORY_URI}${countryKey}`)
+            .reply(200, useHistoryRaw);
+        const result = await downloadCountryHistory(countryKey);
+        expect(result).toEqual(useHistoryFormatted);
     });
 
-    it('downloadCountryHistory multiple attempts', () => {
-        throw new Error();
+    it('downloadCountryHistory multiple attempts', async () => {
+        const countryKey = 'usa';
+        mockApi.onGet(`${BASE_URL}${COUNTRY_HISTORY_URI}${countryKey}`)
+            .replyOnce(500, 'Error');
+        mockApi.onGet(`${BASE_URL}${COUNTRY_HISTORY_URI}${countryKey}`)
+            .reply(200, useHistoryRaw);
+        const result = await downloadCountryHistory(countryKey);
+        expect(result).toEqual(useHistoryFormatted);
     });
 });
