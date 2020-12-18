@@ -18,3 +18,26 @@
 
 process.env.DOWNLOAD_RETRY_ATTEMPTS = 5;
 process.env.DOWNLOAD_RETRY_WAIT = 10;
+
+jest.mock('@craigmiller160/covid-19-config-mongo', () => {
+    const actualDependency = require.requireActual('@craigmiller160/covid-19-config-mongo');
+    const collectionMock = {
+        insertMany: jest.fn().mockImplementation(() => Promise.resolve()),
+        deleteMany: jest.fn().mockImplementation(() => Promise.resolve())
+    };
+
+    const dbMock = {
+        collection: jest.fn().mockImplementation(() => Promise.resolve(collectionMock))
+    };
+
+    return {
+        ...actualDependency,
+        connect: (dbFunction) => dbFunction(dbMock),
+        dbMock
+    };
+});
+
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
