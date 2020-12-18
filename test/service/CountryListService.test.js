@@ -16,12 +16,31 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const { dbMock, collectionMock } = require('@craigmiller160/covid-19-config-mongo');
+const {
+    addCountry,
+    clearCountries,
+    COLLECTION
+} = require('../../src/service/CountryListService');
+
 describe('CountryListService', () => {
-    it('addCountry', () => {
-        throw new Error();
+    it('addCountry', async () => {
+        const country = {
+            Slug: 'usa',
+            Country: 'USA'
+        };
+        const expectedCountry = {
+            location: 'usa',
+            displayLocation: 'USA'
+        };
+        await addCountry(country);
+        expect(dbMock.collection).toHaveBeenCalledWith(COLLECTION);
+        expect(collectionMock.insertOne).toHaveBeenCalledWith(expectedCountry);
     });
 
-    it('clearCountries', () => {
-        throw new Error();
+    it('clearCountries', async () => {
+        await clearCountries();
+        expect(dbMock.collection).toHaveBeenCalledWith(COLLECTION);
+        expect(collectionMock.deleteMany).toHaveBeenCalled();
     });
 });
