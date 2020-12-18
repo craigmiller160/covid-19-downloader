@@ -21,7 +21,7 @@ const TraceError = require('trace-error');
 
 const COLLECTION = 'countries';
 
-const setCountryList = async (countryList) => {
+const setCountryList = async (countryList) => { // TODO delete this
     try {
         await connect(async (db) => {
             await db.collection(COLLECTION)
@@ -34,6 +34,25 @@ const setCountryList = async (countryList) => {
     }
 };
 
+const clearCountries = async () => {
+    try {
+
+    } catch (ex) {
+        throw new TraceError('Error clearing countries', ex);
+    }
+};
+
+const addCountry = async (country) => {
+    try {
+
+    } catch (ex) {
+        throw new TraceError('Error adding a country', ex);
+    }
+};
+
 module.exports = {
-    setCountryList
+    setCountryList,
+    addCountry,
+    clearCountries,
+    COLLECTION
 };

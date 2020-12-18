@@ -69,7 +69,11 @@ const handleWorldDataOld = async () => { // TODO delete this
 const handleWorldData = async () => {
     try {
         logger.info('Downloading world data');
+        // TODO clear old data
+
         const countries = await downloadCountryList();
+        // TODO iterate over countries, add country to list, download and write country history data
+
         // TODO need "current" data, done by combining latest records with population
 
         return 'Successfully downloaded world data and inserted into MongoDB';
