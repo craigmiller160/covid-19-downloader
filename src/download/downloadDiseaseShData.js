@@ -34,7 +34,15 @@ const downloadCurrentDataAllCountries = async () => {
     logger.info('Attempting to download Disease.sh data on current stats for all countries');
     try {
         const data = await attempt(createExecuteDownload(''));
-        // TODO handle data
+        return data.map((record) => ({
+            location: record.country,
+            displayLocation: record.country,
+            population: record.population,
+            totalCases: record.cases,
+            totalCasesPerMillion: record.casesPerOneMillion,
+            totalDeaths: record.deaths,
+            totalDeathsPerMillion: record.deathsPerOneMillion
+        }));
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on current stats for all countries', ex);
     }
