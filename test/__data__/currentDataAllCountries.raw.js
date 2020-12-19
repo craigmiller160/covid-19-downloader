@@ -55,7 +55,7 @@ module.exports = [
         "countryInfo": {
             "_id": 8,
             "iso2": "AL",
-            "iso3": "ALB",
+            "iso3": "AFG",
             "lat": 41,
             "long": 20,
             "flag": "https://disease.sh/assets/img/flags/al.png"
@@ -87,7 +87,7 @@ module.exports = [
         "countryInfo": {
             "_id": 12,
             "iso2": "DZ",
-            "iso3": "DZA",
+            "iso3": "AFG",
             "lat": 28,
             "long": 3,
             "flag": "https://disease.sh/assets/img/flags/dz.png"
@@ -119,7 +119,7 @@ module.exports = [
         "countryInfo": {
             "_id": 20,
             "iso2": "AD",
-            "iso3": "AND",
+            "iso3": "AFG",
             "lat": 42.5,
             "long": 1.6,
             "flag": "https://disease.sh/assets/img/flags/ad.png"

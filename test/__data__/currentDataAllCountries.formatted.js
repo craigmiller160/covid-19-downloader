@@ -18,7 +18,7 @@
 
 module.exports = [
     {
-        location: 'Afghanistan',
+        location: 'AFG',
         displayLocation: 'Afghanistan',
         population: 39331210,
         totalCases: 50536,
@@ -27,7 +27,7 @@ module.exports = [
         totalDeathsPerMillion: 52
     },
     {
-        location: 'Albania',
+        location: 'AFG',
         displayLocation: 'Albania',
         population: 2876324,
         totalCases: 52542,
@@ -36,7 +36,7 @@ module.exports = [
         totalDeathsPerMillion: 373
     },
     {
-        location: 'Algeria',
+        location: 'AFG',
         displayLocation: 'Algeria',
         population: 44216365,
         totalCases: 94781,
@@ -45,7 +45,7 @@ module.exports = [
         totalDeathsPerMillion: 60
     },
     {
-        location: 'Andorra',
+        location: 'AFG',
         displayLocation: 'Andorra',
         population: 77323,
         totalCases: 7560,

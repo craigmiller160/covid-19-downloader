@@ -41,7 +41,7 @@ const downloadCurrentDataAllCountries = async () => {
     try {
         const data = await attempt(createExecuteDownload(`${BASE_URL}${COUNTRIES_CURRENT_URI}`));
         return data.map((record) => ({
-            location: record.country,
+            location: record.countryInfo.iso3,
             displayLocation: record.country,
             population: record.population,
             totalCases: record.cases,
