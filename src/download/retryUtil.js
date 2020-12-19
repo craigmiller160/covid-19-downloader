@@ -18,7 +18,12 @@
 
 const retry = require('retry');
 
-const attempt = (action, options) => new Promise((resolve, reject) => {
+const defaultOptions = {
+    retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
+    minTimeout: process.env.DOWNLOAD_RETRY_WAIT
+};
+
+const attempt = (action, options = defaultOptions) => new Promise((resolve, reject) => {
     const operation = retry.operation(options);
     operation.attempt(async (currentAttempt) => {
         try {

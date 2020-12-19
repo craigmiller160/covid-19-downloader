@@ -20,7 +20,6 @@ const { attempt } = require('./retryUtil');
 const axios = require('axios');
 const moment = require('moment');
 const TraceError = require('trace-error');
-const retry = require('retry');
 
 const createExecuteDownload = (url) => async (currentAttempt) => {
     logger.debug(`Attempt #${currentAttempt} to download Disease.sh data`);
@@ -32,7 +31,13 @@ const createExecuteDownload = (url) => async (currentAttempt) => {
 };
 
 const downloadCurrentDataAllCountries = async () => {
-    // TODO finish this
+    logger.info('Attempting to download Disease.sh data on current stats for all countries');
+    try {
+        const data = await attempt(createExecuteDownload(''));
+        // TODO handle data
+    } catch (ex) {
+        throw new TraceError('Unable to download Disease.sh data on current stats for all countries', ex);
+    }
 };
 
 const downloadHistoricalDataWorld = async () => {
