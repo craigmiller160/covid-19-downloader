@@ -40,7 +40,7 @@ describe('downloadDiseaseShData', () => {
     let lastDays;
     beforeEach(() => {
         mockApi.reset();
-        lastDays = moment('2020-01-01').diff(moment(), 'days');
+        lastDays = moment().diff(moment('2020-01-01'), 'days');
     });
 
     it('downloadCurrentDataAllCountries', async () => {
