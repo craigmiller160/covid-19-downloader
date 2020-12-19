@@ -42,7 +42,7 @@ const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
 
-const handleWorldData = async () => {
+const handleWorldDataOld = async () => { // TODO delete this
     try {
         logger.info('Downloading world data');
         const ecdcData = await downloadEcdcData();
@@ -59,6 +59,21 @@ const handleWorldData = async () => {
         await setCountryCurrentData(countryCurrentData);
         await setCountryHistoricalData([...worldHistoricalData, ...countryHistoricalData]);
         await setCountryList(countries);
+        return 'Successfully downloaded world data and inserted into MongoDB';
+    } catch (ex) {
+        throw new TraceError('Error downloading or inserting into MongoDB world data', ex);
+    }
+};
+
+const handleWorldData = async () => {
+    try {
+        logger.info('Downloading world data');
+
+        // TODO download and format current country data
+        // TODO download and format world historical data
+        // TODO download and format historical data by country (done in loop)
+        // TODO write to MongoDB
+
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
         throw new TraceError('Error downloading or inserting into MongoDB world data', ex);
