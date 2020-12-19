@@ -23,6 +23,9 @@ const TraceError = require('trace-error');
 
 const BASE_URL = 'https://corona.lmao.ninja/v3/covid-19';
 const COUNTRIES_CURRENT_URI = '/countries';
+const HISTORICAL_URI = '/historical';
+
+const oldestDate = moment('2020-01-01');
 
 const createExecuteDownload = (url) => async (currentAttempt) => {
     logger.debug(`Attempt #${currentAttempt} to download Disease.sh data`);
@@ -52,7 +55,22 @@ const downloadCurrentDataAllCountries = async () => {
 };
 
 const downloadHistoricalDataWorld = async () => {
-    // TODO finish this
+    logger.info('Attempting to download Disease.sh data on world historical stats');
+    try {
+        const lastDays = oldestDate.diff(moment(), 'days');
+        const data = await attempt(createExecuteDownload(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`));
+        let lastRecord = {
+            date: null,
+            location: null,
+            newCases: 0,
+            newDeaths: 0,
+            totalCases: 0,
+            totalDeaths: 0
+        };
+        // TODO format the data
+    } catch (ex) {
+        throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
+    }
 };
 
 const downloadHistoricalDataCountry = async (countryName) => {
@@ -64,5 +82,6 @@ module.exports = {
     downloadHistoricalDataWorld,
     downloadHistoricalDataCountry,
     BASE_URL,
-    COUNTRIES_CURRENT_URI
+    COUNTRIES_CURRENT_URI,
+    HISTORICAL_URI
 };
