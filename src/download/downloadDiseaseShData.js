@@ -54,45 +54,61 @@ const downloadCurrentDataAllCountries = async () => {
     }
 };
 
+const formatHistoricalData = (caseEntries, deathEntries, location) => {
+    let lastRecord = {
+        date: null,
+        location: null,
+        newCases: 0,
+        newDeaths: 0,
+        totalCases: 0,
+        totalDeaths: 0
+    };
+
+    return [...new Array(caseEntries.length).keys()]
+        .map((index) => {
+            const rawDate = caseEntries[index][0];
+            const totalCases = caseEntries[index][1];
+            const totalDeaths = deathEntries[index][1];
+            const newRecord = {
+                location,
+                date: moment(rawDate, 'M/DD/YY').toDate(),
+                newCases: totalCases - lastRecord.totalCases,
+                totalCases,
+                newDeaths: totalDeaths - lastRecord.totalDeaths,
+                totalDeaths
+            };
+            lastRecord = newRecord;
+
+            return newRecord;
+        });
+};
+
 const downloadHistoricalDataWorld = async () => {
     logger.info('Attempting to download Disease.sh data on world historical stats');
     try {
         const lastDays = oldestDate.diff(moment(), 'days');
         const data = await attempt(createExecuteDownload(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`));
-        let lastRecord = {
-            date: null,
-            location: null,
-            newCases: 0,
-            newDeaths: 0,
-            totalCases: 0,
-            totalDeaths: 0
-        };
+
         const caseEntries = Object.entries(data.cases);
         const deathEntries = Object.entries(data.deaths);
-        return [...new Array(caseEntries.length).keys()]
-            .map((index) => {
-                const rawDate = caseEntries[index][0];
-                const totalCases = caseEntries[index][1];
-                const totalDeaths = deathEntries[index][1];
-                const newRecord = {
-                    location: 'World',
-                    date: moment(rawDate, 'M/DD/YY').toDate(),
-                    newCases: totalCases - lastRecord.totalCases,
-                    totalCases,
-                    newDeaths: totalDeaths - lastRecord.totalDeaths,
-                    totalDeaths
-                };
-                lastRecord = newRecord;
-
-                return newRecord;
-            });
+        return formatHistoricalData(caseEntries, deathEntries, 'World');
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
     }
 };
 
 const downloadHistoricalDataCountry = async (countryName) => {
-    // TODO finish this
+    logger.info(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
+    try {
+        const lastDays = oldestDate.diff(moment(), 'days');
+        const data = await attempt(createExecuteDownload(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`));
+
+        const caseEntries = Object.entries(data.timeline.cases);
+        const deathEntries = Object.entries(data.timeline.deaths);
+        return formatHistoricalData(caseEntries, deathEntries, countryName);
+    } catch (ex) {
+        throw new TraceError(`Unable to download Disease.sh data on historical stats for country ${countryName}`, ex);
+    }
 };
 
 module.exports = {
