@@ -19,7 +19,7 @@
 module.exports = [
     {
         date: new Date('2020-01-22T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 555,
         newDeaths: 17,
         totalCases: 555,
@@ -27,7 +27,7 @@ module.exports = [
     },
     {
         date: new Date('2020-01-23T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 99,
         newDeaths: 1,
         totalCases: 654,
@@ -35,7 +35,7 @@ module.exports = [
     },
     {
         date: new Date('2020-01-24T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 287,
         newDeaths: 8,
         totalCases: 941,
@@ -43,7 +43,7 @@ module.exports = [
     },
     {
         date: new Date('2020-01-25T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 493,
         newDeaths: 16,
         totalCases: 1434,
@@ -51,7 +51,7 @@ module.exports = [
     },
     {
         date: new Date('2020-01-26T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 684,
         newDeaths: 14,
         totalCases: 2118,
@@ -59,7 +59,7 @@ module.exports = [
     },
     {
         date: new Date('2020-01-27T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 809,
         newDeaths: 26,
         totalCases: 2927,
@@ -67,10 +67,10 @@ module.exports = [
     },
     {
         date: new Date('2020-01-28T05:00:00Z'),
-        location: 'World',
+        location: 'USA',
         newCases: 2651,
         newDeaths: 49,
         totalCases: 5578,
         totalDeaths: 131
     }
-];
+]
