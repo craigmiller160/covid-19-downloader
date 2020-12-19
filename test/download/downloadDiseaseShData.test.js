@@ -50,15 +50,6 @@ describe('downloadDiseaseShData', () => {
         expect(result).toEqual(currentDataAllCountriesFormatted);
     });
 
-    it('downloadCurrentDataAllCountries multiple attempts', async () => {
-        mockApi.onGet(`${BASE_URL}${COUNTRIES_CURRENT_URI}`)
-            .replyOnce(500, 'Failed');
-        mockApi.onGet(`${BASE_URL}${COUNTRIES_CURRENT_URI}`)
-            .reply(200, currentDataAllCountriesRaw);
-        const result = await downloadCurrentDataAllCountries();
-        expect(result).toEqual(currentDataAllCountriesFormatted);
-    });
-
     it('downloadHistoricalDataWorld', async () => {
         const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
         mockApi.onGet(url)
@@ -67,28 +58,8 @@ describe('downloadDiseaseShData', () => {
         expect(result).toEqual(historyDataWorldFormatted);
     });
 
-    it('downloadHistoricalDataWorld multiple attempts', async () => {
-        const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
-        mockApi.onGet(url)
-            .replyOnce(500, 'Failed');
-        mockApi.onGet(url)
-            .reply(200, historyDataWorldRaw);
-        const result = await downloadHistoricalDataWorld();
-        expect(result).toEqual(historyDataWorldFormatted);
-    });
-
     it('downloadHistoricalDataCountry', async () => {
         const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
-        mockApi.onGet(url)
-            .reply(200, historyDataUSARaw);
-        const result = await downloadHistoricalDataCountry('USA');
-        expect(result).toEqual(historyDataUSAFormatted);
-    });
-
-    it('downloadHistoricalDataCountry multiple attempts', async () => {
-        const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
-        mockApi.onGet(url)
-            .replyOnce(500, 'Failed');
         mockApi.onGet(url)
             .reply(200, historyDataUSARaw);
         const result = await downloadHistoricalDataCountry('USA');

@@ -27,20 +27,11 @@ const HISTORICAL_URI = '/historical';
 
 const oldestDate = moment('2020-01-01');
 
-const createExecuteDownload = (url) => async (currentAttempt) => {
-    logger.debug(`Attempt #${currentAttempt} to download Disease.sh data: ${url}`);
-    const res = await axios.get(url);
-    if (res.data) {
-        return res.data;
-    }
-    throw new Error('Disease.sh API did not return a valid response, may be down.');
-};
-
 const downloadCurrentDataAllCountries = async () => {
     logger.info('Attempting to download Disease.sh data on current stats for all countries');
     try {
-        const data = await attempt(createExecuteDownload(`${BASE_URL}${COUNTRIES_CURRENT_URI}`));
-        return data.map((record) => ({
+        const res = await axios.get(`${BASE_URL}${COUNTRIES_CURRENT_URI}`);
+        return res.data.map((record) => ({
             location: record.countryInfo.iso3,
             displayLocation: record.country,
             population: record.population,
@@ -87,10 +78,10 @@ const downloadHistoricalDataWorld = async () => {
     logger.info('Attempting to download Disease.sh data on world historical stats');
     try {
         const lastDays = moment().diff(oldestDate, 'days');
-        const data = await attempt(createExecuteDownload(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`));
+        const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`);
 
-        const caseEntries = Object.entries(data.cases);
-        const deathEntries = Object.entries(data.deaths);
+        const caseEntries = Object.entries(res.data.cases);
+        const deathEntries = Object.entries(res.data.deaths);
         return formatHistoricalData(caseEntries, deathEntries, 'World');
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
@@ -101,10 +92,12 @@ const downloadHistoricalDataCountry = async (countryName) => {
     logger.info(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
     try {
         const lastDays = moment().diff(oldestDate, 'days');
-        const data = await attempt(createExecuteDownload(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`));
+        const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
 
-        const caseEntries = Object.entries(data.timeline.cases);
-        const deathEntries = Object.entries(data.timeline.deaths);
+        // TODO validate 404
+
+        const caseEntries = Object.entries(res.data.timeline.cases);
+        const deathEntries = Object.entries(res.data.timeline.deaths);
         return formatHistoricalData(caseEntries, deathEntries, countryName);
     } catch (ex) {
         throw new TraceError(`Unable to download Disease.sh data on historical stats for country ${countryName}`, ex);
