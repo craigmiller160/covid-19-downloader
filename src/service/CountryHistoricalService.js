@@ -44,8 +44,17 @@ const clearCountryHistoricalData = async () => {
     }
 };
 
+const upsertCountryHistoricalData = async (countryData) => {
+    try {
+
+    } catch (ex) {
+        throw new TraceError('Error upserting country historical data', ex);
+    }
+};
+
 module.exports = {
     setCountryHistoricalData,
     clearCountryHistoricalData,
+    upsertCountryHistoricalData,
     COLLECTION
 };
