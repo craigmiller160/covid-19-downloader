@@ -21,6 +21,9 @@ const axios = require('axios');
 const moment = require('moment');
 const TraceError = require('trace-error');
 
+const BASE_URL = 'https://corona.lmao.ninja/v3/covid-19';
+const COUNTRIES_CURRENT_URI = '/countries';
+
 const createExecuteDownload = (url) => async (currentAttempt) => {
     logger.debug(`Attempt #${currentAttempt} to download Disease.sh data`);
     const res = await axios.get(url);
@@ -33,7 +36,7 @@ const createExecuteDownload = (url) => async (currentAttempt) => {
 const downloadCurrentDataAllCountries = async () => {
     logger.info('Attempting to download Disease.sh data on current stats for all countries');
     try {
-        const data = await attempt(createExecuteDownload(''));
+        const data = await attempt(createExecuteDownload(`${BASE_URL}${COUNTRIES_CURRENT_URI}`));
         return data.map((record) => ({
             location: record.country,
             displayLocation: record.country,
@@ -59,5 +62,7 @@ const downloadHistoricalDataCountry = async (countryName) => {
 module.exports = {
     downloadCurrentDataAllCountries,
     downloadHistoricalDataWorld,
-    downloadHistoricalDataCountry
+    downloadHistoricalDataCountry,
+    BASE_URL,
+    COUNTRIES_CURRENT_URI
 };

@@ -18,6 +18,7 @@
 
 process.env.DOWNLOAD_RETRY_ATTEMPTS = 5;
 process.env.DOWNLOAD_RETRY_WAIT = 10;
+process.env.LOGGER_LEVEL = 'debug';
 
 jest.mock('@craigmiller160/covid-19-config-mongo', () => {
     const actualDependency = jest.requireActual('@craigmiller160/covid-19-config-mongo');

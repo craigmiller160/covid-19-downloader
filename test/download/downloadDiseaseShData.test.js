@@ -18,6 +18,13 @@
 
 const axios = require('axios');
 const MockAdapter = require('axios-mock-adapter');
+const {
+    downloadCurrentDataAllCountries,
+    BASE_URL,
+    COUNTRIES_CURRENT_URI
+} = require('../../src/download/downloadDiseaseShData');
+const currentDataAllCountriesRaw = require('../__data__/currentDataAllCountries.raw');
+const currentDataAllCountriesFormatted = require('../__data__/currentDataAllCountries.formatted');
 
 const mockApi = new MockAdapter(axios);
 
@@ -26,12 +33,20 @@ describe('downloadDiseaseShData', () => {
         mockApi.reset();
     });
 
-    it('downloadCurrentDataAllCountries', () => {
-        throw new Error();
+    it('downloadCurrentDataAllCountries', async () => {
+        mockApi.onGet(`${BASE_URL}${COUNTRIES_CURRENT_URI}`)
+            .reply(200, currentDataAllCountriesRaw);
+        const result = await downloadCurrentDataAllCountries();
+        expect(result).toEqual(currentDataAllCountriesFormatted);
     });
 
-    it('downloadCurrentDataAllCountries multiple attempts', () => {
-        throw new Error();
+    it('downloadCurrentDataAllCountries multiple attempts', async () => {
+        mockApi.onGet(`${BASE_URL}${COUNTRIES_CURRENT_URI}`)
+            .replyOnce(500, 'Failed');
+        mockApi.onGet(`${BASE_URL}${COUNTRIES_CURRENT_URI}`)
+            .reply(200, currentDataAllCountriesRaw);
+        const result = await downloadCurrentDataAllCountries();
+        expect(result).toEqual(currentDataAllCountriesFormatted);
     });
 
     it('downloadHistoricalDataWorld', () => {
