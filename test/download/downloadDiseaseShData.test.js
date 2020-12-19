@@ -16,7 +16,16 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const axios = require('axios');
+const MockAdapter = require('axios-mock-adapter');
+
+const mockApi = new MockAdapter(axios);
+
 describe('downloadDiseaseShData', () => {
+    beforeEach(() => {
+        mockApi.reset();
+    });
+
     it('downloadCurrentDataAllCountries', () => {
         throw new Error();
     });
