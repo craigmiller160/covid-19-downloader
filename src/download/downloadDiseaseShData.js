@@ -75,6 +75,7 @@ const downloadHistoricalDataWorld = async () => {
                 const totalCases = caseEntries[index][1];
                 const totalDeaths = deathEntries[index][1];
                 const newRecord = {
+                    location: 'World',
                     date: moment(rawDate, 'M/DD/YY').toDate(),
                     newCases: totalCases - lastRecord.totalCases,
                     totalCases,

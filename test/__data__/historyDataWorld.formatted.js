@@ -18,7 +18,7 @@
 
 module.exports = [
     {
-        date: new Date('2020-01-220T00:00:00Z'),
+        date: new Date('2020-01-22T05:00:00Z'),
         location: 'World',
         newCases: 555,
         newDeaths: 17,
@@ -26,7 +26,7 @@ module.exports = [
         totalDeaths: 17
     },
     {
-        date: new Date('2020-01-230T00:00:00Z'),
+        date: new Date('2020-01-23T05:00:00Z'),
         location: 'World',
         newCases: 99,
         newDeaths: 1,
@@ -34,7 +34,7 @@ module.exports = [
         totalDeaths: 18
     },
     {
-        date: new Date('2020-01-240T00:00:00Z'),
+        date: new Date('2020-01-24T05:00:00Z'),
         location: 'World',
         newCases: 287,
         newDeaths: 8,
@@ -42,15 +42,15 @@ module.exports = [
         totalDeaths: 26
     },
     {
-        date: new Date('2020-01-250T00:00:00Z'),
+        date: new Date('2020-01-25T05:00:00Z'),
         location: 'World',
-        newCases: 0,
-        newDeaths: 0,
+        newCases: 493,
+        newDeaths: 16,
         totalCases: 1434,
         totalDeaths: 42
     },
     {
-        date: new Date('2020-01-260T00:00:00Z'),
+        date: new Date('2020-01-26T05:00:00Z'),
         location: 'World',
         newCases: 684,
         newDeaths: 14,
@@ -58,7 +58,7 @@ module.exports = [
         totalDeaths: 56
     },
     {
-        date: new Date('2020-01-270T00:00:00Z'),
+        date: new Date('2020-01-27T05:00:00Z'),
         location: 'World',
         newCases: 809,
         newDeaths: 26,
@@ -66,7 +66,7 @@ module.exports = [
         totalDeaths: 82
     },
     {
-        date: new Date('2020-01-280T00:00:00Z'),
+        date: new Date('2020-01-28T05:00:00Z'),
         location: 'World',
         newCases: 2651,
         newDeaths: 49,

@@ -17,14 +17,20 @@
  */
 
 const axios = require('axios');
+const moment = require('moment');
 const MockAdapter = require('axios-mock-adapter');
 const {
     downloadCurrentDataAllCountries,
+    downloadHistoricalDataCountry,
+    downloadHistoricalDataWorld,
     BASE_URL,
-    COUNTRIES_CURRENT_URI
+    COUNTRIES_CURRENT_URI,
+    HISTORICAL_URI
 } = require('../../src/download/downloadDiseaseShData');
 const currentDataAllCountriesRaw = require('../__data__/currentDataAllCountries.raw');
 const currentDataAllCountriesFormatted = require('../__data__/currentDataAllCountries.formatted');
+const historyDataWorldRaw = require('../__data__/historyDataWorld.raw');
+const historyDataWorldFormatted = require('../__data__/historyDataWorld.formatted');
 
 const mockApi = new MockAdapter(axios);
 
@@ -49,12 +55,24 @@ describe('downloadDiseaseShData', () => {
         expect(result).toEqual(currentDataAllCountriesFormatted);
     });
 
-    it('downloadHistoricalDataWorld', () => {
-        throw new Error();
+    it('downloadHistoricalDataWorld', async () => {
+        const lastDays = moment('2020-01-01').diff(moment(), 'days');
+        const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
+        mockApi.onGet(url)
+            .reply(200, historyDataWorldRaw);
+        const result = await downloadHistoricalDataWorld();
+        expect(result).toEqual(historyDataWorldFormatted);
     });
 
-    it('downloadHistoricalDataWorld multiple attempts', () => {
-        throw new Error();
+    it('downloadHistoricalDataWorld multiple attempts', async () => {
+        const lastDays = moment('2020-01-01').diff(moment(), 'days');
+        const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
+        mockApi.onGet(url)
+            .replyOnce(500, 'Failed');
+        mockApi.onGet(url)
+            .reply(200, historyDataWorldRaw);
+        const result = await downloadHistoricalDataWorld();
+        expect(result).toEqual(historyDataWorldFormatted);
     });
 
     it('downloadHistoricalDataCountry', () => {
