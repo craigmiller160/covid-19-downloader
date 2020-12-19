@@ -55,7 +55,29 @@ const addCountry = async (country) => {
                 });
         });
     } catch (ex) {
-        throw new TraceError('Error adding a country', ex);
+        throw new TraceError(`Error adding a country: ${country.Country}`, ex);
+    }
+};
+
+const upsertCountry = async (country) => {
+    try {
+        await connect(async (db) => {
+            const query = {
+                location: country.Slug
+            };
+            const replacement = {
+                location: country.Slug,
+                displayLocation: country.Country
+            };
+            const options = {
+                upsert: true
+            };
+
+            await db.collection(COLLECTION)
+                .replaceOne(query, replacement, options);
+        });
+    } catch (ex) {
+        throw new TraceError(`Error upserting a country: ${country.Country}`, ex);
     }
 };
 
@@ -63,5 +85,6 @@ module.exports = {
     setCountryList,
     addCountry,
     clearCountries,
+    upsertCountry,
     COLLECTION
 };

@@ -20,6 +20,7 @@ const { dbMock, collectionMock } = require('@craigmiller160/covid-19-config-mong
 const {
     addCountry,
     clearCountries,
+    upsertCountry,
     COLLECTION
 } = require('../../src/service/CountryListService');
 
@@ -42,5 +43,25 @@ describe('CountryListService', () => {
         await clearCountries();
         expect(dbMock.collection).toHaveBeenCalledWith(COLLECTION);
         expect(collectionMock.deleteMany).toHaveBeenCalled();
+    });
+
+    it('upsertCountry', async () => {
+        const country = {
+            Slug: 'usa',
+            Country: 'USA'
+        };
+        const query = {
+            location: 'usa'
+        };
+        const replacement = {
+            location: 'usa',
+            displayLocation: 'USA'
+        };
+        const options = {
+            upsert: true
+        };
+        await upsertCountry(country);
+        expect(dbMock.collection).toHaveBeenCalledWith(COLLECTION);
+        expect(collectionMock.replaceOne).toHaveBeenCalledWith(query, replacement, options);
     });
 });

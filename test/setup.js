@@ -24,7 +24,8 @@ jest.mock('@craigmiller160/covid-19-config-mongo', () => {
     const collectionMock = {
         insertMany: jest.fn().mockImplementation(() => Promise.resolve()),
         deleteMany: jest.fn().mockImplementation(() => Promise.resolve()),
-        insertOne: jest.fn().mockImplementation(() => Promise.resolve())
+        insertOne: jest.fn().mockImplementation(() => Promise.resolve()),
+        replaceOne: jest.fn().mockImplementation(() => Promise.resolve())
     };
 
     const dbMock = {
