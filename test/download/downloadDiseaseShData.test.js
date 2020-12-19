@@ -31,12 +31,16 @@ const currentDataAllCountriesRaw = require('../__data__/currentDataAllCountries.
 const currentDataAllCountriesFormatted = require('../__data__/currentDataAllCountries.formatted');
 const historyDataWorldRaw = require('../__data__/historyDataWorld.raw');
 const historyDataWorldFormatted = require('../__data__/historyDataWorld.formatted');
+const historyDataUSARaw = require('../__data__/historyDataUSA.raw');
+const historyDataUSAFormatted = require('../__data__/historyDataUSA.formatted');
 
 const mockApi = new MockAdapter(axios);
 
 describe('downloadDiseaseShData', () => {
+    let lastDays;
     beforeEach(() => {
         mockApi.reset();
+        lastDays = moment('2020-01-01').diff(moment(), 'days');
     });
 
     it('downloadCurrentDataAllCountries', async () => {
@@ -56,7 +60,6 @@ describe('downloadDiseaseShData', () => {
     });
 
     it('downloadHistoricalDataWorld', async () => {
-        const lastDays = moment('2020-01-01').diff(moment(), 'days');
         const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
         mockApi.onGet(url)
             .reply(200, historyDataWorldRaw);
@@ -65,7 +68,6 @@ describe('downloadDiseaseShData', () => {
     });
 
     it('downloadHistoricalDataWorld multiple attempts', async () => {
-        const lastDays = moment('2020-01-01').diff(moment(), 'days');
         const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
         mockApi.onGet(url)
             .replyOnce(500, 'Failed');
@@ -75,11 +77,21 @@ describe('downloadDiseaseShData', () => {
         expect(result).toEqual(historyDataWorldFormatted);
     });
 
-    it('downloadHistoricalDataCountry', () => {
-        throw new Error();
+    it('downloadHistoricalDataCountry', async () => {
+        const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
+        mockApi.onGet(url)
+            .reply(200, historyDataUSARaw);
+        const result = await downloadHistoricalDataCountry('USA');
+        expect(result).toEqual(historyDataUSAFormatted);
     });
 
-    it('downloadHistoricalDataCountry multiple attempts', () => {
-        throw new Error();
+    it('downloadHistoricalDataCountry multiple attempts', async () => {
+        const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
+        mockApi.onGet(url)
+            .replyOnce(500, 'Failed');
+        mockApi.onGet(url)
+            .reply(200, historyDataUSARaw);
+        const result = await downloadHistoricalDataCountry('USA');
+        expect(result).toEqual(historyDataUSAFormatted);
     });
 });
