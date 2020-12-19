@@ -67,7 +67,24 @@ const downloadHistoricalDataWorld = async () => {
             totalCases: 0,
             totalDeaths: 0
         };
-        // TODO format the data
+        const caseEntries = Object.entries(data.cases);
+        const deathEntries = Object.entries(data.deaths);
+        return [...new Array(caseEntries.length).keys()]
+            .map((index) => {
+                const rawDate = caseEntries[index][0];
+                const totalCases = caseEntries[index][1];
+                const totalDeaths = deathEntries[index][1];
+                const newRecord = {
+                    date: moment(rawDate, 'M/DD/YY').toDate(),
+                    newCases: totalCases - lastRecord.totalCases,
+                    totalCases,
+                    newDeaths: totalDeaths - lastRecord.totalDeaths,
+                    totalDeaths
+                };
+                lastRecord = newRecord;
+
+                return newRecord;
+            });
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
     }
