@@ -41,6 +41,11 @@ const { setStateHistoricalData } = require('../service/StateHistoricalService');
 const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
+const {
+    downloadCurrentDataAllCountries,
+    downloadHistoricalDataCountry,
+    downloadHistoricalDataWorld
+} = require('./downloadDiseaseShData');
 
 const handleWorldDataOld = async () => { // TODO delete this
     try {
@@ -69,10 +74,23 @@ const handleWorldData = async () => {
     try {
         logger.info('Downloading world data');
 
-        // TODO download and format current country data
-        // TODO download and format world historical data
-        // TODO download and format historical data by country (done in loop)
-        // TODO write to MongoDB
+        const countryCurrentData = await downloadCurrentDataAllCountries();
+        const countryList = countryCurrentData.map((country) => ({
+            location: country.country,
+            displayLocation: country.country
+        }));
+        const worldHistoricalData = await downloadHistoricalDataWorld();
+        const countryHistoricalData = countryList.reduce(async (acc, country) => {
+            const data = await downloadHistoricalDataCountry(country.location);
+            return [
+                ...acc,
+                ...data
+            ];
+        }, []);
+
+        await setCountryList(countryList);
+        await setCountryCurrentData(countryCurrentData);
+        await setCountryHistoricalData([ ...worldHistoricalData, ...countryHistoricalData ]);
 
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
