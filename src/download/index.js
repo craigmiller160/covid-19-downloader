@@ -47,29 +47,6 @@ const {
     downloadHistoricalDataWorld
 } = require('./downloadDiseaseShData');
 
-const handleWorldDataOld = async () => { // TODO delete this
-    try {
-        logger.info('Downloading world data');
-        const ecdcData = await downloadEcdcData();
-
-        logger.info('Running calculations on world data');
-
-        const countries = createCountryList(ecdcData.data);
-        const countryHistoricalData = calculateDoubling(calculateHistoricalTotals(ecdcData.data));
-        const worldHistoricalData = calculateDoubling(calculateHistoricalTotals(calculateWorldHistorical(countryHistoricalData)));
-        const countryCurrentData = addCountryDisplayLocation(calculatePerMillion(calculateGrandTotal(countryHistoricalData)));
-
-        logger.info('Writing world data to MongoDB');
-
-        await setCountryCurrentData(countryCurrentData);
-        await setCountryHistoricalData([...worldHistoricalData, ...countryHistoricalData]);
-        await setCountryList(countries);
-        return 'Successfully downloaded world data and inserted into MongoDB';
-    } catch (ex) {
-        throw new TraceError('Error downloading or inserting into MongoDB world data', ex);
-    }
-};
-
 const handleWorldData = async () => {
     try {
         logger.info('Downloading world data');
