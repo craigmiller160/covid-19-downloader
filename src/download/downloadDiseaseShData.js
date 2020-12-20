@@ -94,8 +94,6 @@ const downloadHistoricalDataCountry = async (countryName) => {
         const lastDays = moment().diff(oldestDate, 'days');
         const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
 
-        // TODO validate 404
-
         const caseEntries = Object.entries(res.data.timeline.cases);
         const deathEntries = Object.entries(res.data.timeline.deaths);
         return formatHistoricalData(caseEntries, deathEntries, countryName);
