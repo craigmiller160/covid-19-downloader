@@ -100,6 +100,10 @@ const downloadHistoricalDataCountry = async (countryName) => {
         const deathEntries = Object.entries(res.data.timeline.deaths);
         return formatHistoricalData(caseEntries, deathEntries, countryName);
     } catch (ex) {
+        if (ex.response.status === 404) {
+            return [];
+        }
+
         throw new TraceError(`Unable to download Disease.sh data on historical stats for country ${countryName}`, ex);
     }
 };

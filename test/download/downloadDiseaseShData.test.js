@@ -65,4 +65,12 @@ describe('downloadDiseaseShData', () => {
         const result = await downloadHistoricalDataCountry('USA');
         expect(result).toEqual(historyDataUSAFormatted);
     });
+
+    it('downloadHistoricalDataCountry not found', async () => {
+        const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
+        mockApi.onGet(url)
+            .reply(404, 'County not found');
+        const result = await downloadHistoricalDataCountry('USA');
+        expect(result).toEqual([]);
+    });
 });
