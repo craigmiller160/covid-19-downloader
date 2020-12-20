@@ -6,7 +6,7 @@
   "scripts": {
     "start": "env-cmd node ./src",
     "start:prod": "node ./src",
-    "build": "node scripts/build",
+    "build": "jest && node scripts/build",
     "test": "jest"
   },
   "dependencies": {
