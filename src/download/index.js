@@ -87,6 +87,8 @@ const handleWorldData = async () => {
             ...history
         ]), []);
 
+        console.log('Writing world data to MongoDB');
+
         await setCountryList(countryList);
         await setCountryCurrentData(countryCurrentData);
         await setCountryHistoricalData([ ...worldHistoricalData, ...countryHistoricalData ]);
