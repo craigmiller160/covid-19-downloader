@@ -41,24 +41,35 @@ const { setStateHistoricalData } = require('../service/StateHistoricalService');
 const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
+const {
+    downloadCurrentDataAllCountries,
+    downloadHistoricalDataCountry,
+    downloadHistoricalDataWorld
+} = require('./downloadDiseaseShData');
 
 const handleWorldData = async () => {
     try {
         logger.info('Downloading world data');
-        const ecdcData = await downloadEcdcData();
 
-        logger.info('Running calculations on world data');
+        const countryCurrentData = await downloadCurrentDataAllCountries();
+        const countryList = countryCurrentData.map((country) => ({
+            location: country.location,
+            displayLocation: country.displayLocation
+        }));
+        const worldHistoricalData = await downloadHistoricalDataWorld();
+        const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location));
+        const countryHistories = await Promise.all(countryHistoryPromises);
+        const countryHistoricalData = countryHistories.reduce((acc, history) => ([
+            ...acc,
+            ...history
+        ]), []);
 
-        const countries = createCountryList(ecdcData.data);
-        const countryHistoricalData = calculateDoubling(calculateHistoricalTotals(ecdcData.data));
-        const worldHistoricalData = calculateDoubling(calculateHistoricalTotals(calculateWorldHistorical(countryHistoricalData)));
-        const countryCurrentData = addCountryDisplayLocation(calculatePerMillion(calculateGrandTotal(countryHistoricalData)));
+        console.log('Writing world data to MongoDB');
 
-        logger.info('Writing world data to MongoDB');
-
+        await setCountryList(countryList);
         await setCountryCurrentData(countryCurrentData);
-        await setCountryHistoricalData([...worldHistoricalData, ...countryHistoricalData]);
-        await setCountryList(countries);
+        await setCountryHistoricalData([ ...worldHistoricalData, ...countryHistoricalData ]);
+
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
         throw new TraceError('Error downloading or inserting into MongoDB world data', ex);

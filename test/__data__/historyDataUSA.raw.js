@@ -16,31 +16,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const retry = require('retry');
-
-const defaultOptions = {
-    retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
-    minTimeout: process.env.DOWNLOAD_RETRY_WAIT
-};
-
-const attempt = (action, options = defaultOptions) => new Promise((resolve, reject) => {
-    const operation = retry.operation(options);
-    operation.attempt(async (currentAttempt) => {
-        try {
-            let result = action(currentAttempt);
-            if (result instanceof Promise) {
-                result = await result;
-            }
-            resolve(result);
-        } catch (ex) {
-            if (operation.retry(ex)) {
-                return;
-            }
-            reject(ex);
-        }
-    });
-});
-
 module.exports = {
-    attempt
+    country: 'USA',
+    timeline: {
+        cases: {
+            "1/22/20": 555,
+            "1/23/20": 654,
+            "1/24/20": 941,
+            "1/25/20": 1434,
+            "1/26/20": 2118,
+            "1/27/20": 2927,
+            "1/28/20": 5578
+        },
+        deaths: {
+            "1/22/20": 17,
+            "1/23/20": 18,
+            "1/24/20": 26,
+            "1/25/20": 42,
+            "1/26/20": 56,
+            "1/27/20": 82,
+            "1/28/20": 131
+        }
+    }
 };
