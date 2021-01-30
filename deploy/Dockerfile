@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY build/covid-19-downloader-*.zip ./covid-19-downloader.zip
 RUN unzip covid-19-downloader.zip
 
-RUN npm set registry http://localhost:30000/
+RUN npm set registry https://craigmiller160.ddns.net:30003/repository/npm-group/
 
 RUN yarn
 
