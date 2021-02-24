@@ -3,10 +3,17 @@
   "version": "1.6.0-beta",
   "main": "index.js",
   "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "registry": "https://craigmiller160.ddns.net:30003/repository/npm-private/"
+  },
+  "author": "craigmiller160",
   "scripts": {
     "start": "env-cmd node ./src",
     "start:prod": "node ./src",
-    "build": "jest && node scripts/build",
+    "build": "jest && echo 'No build needed'",
     "test": "jest"
   },
   "dependencies": {
