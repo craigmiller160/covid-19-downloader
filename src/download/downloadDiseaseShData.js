@@ -99,13 +99,16 @@ const downloadHistoricalDataCountry = async (countryName) => {
     logger.info(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
     try {
         const lastDays = moment().diff(oldestDate, 'days');
-        const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
-        // TODO add vaccine call here
+        const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
+        const vaccineRes = await axios.get(`${BASE_URL}${VACCINE_URI}/countries/${countryName}?lastdays=${lastDays}`);
 
-        const caseEntries = Object.entries(res.data.timeline.cases);
-        const deathEntries = Object.entries(res.data.timeline.deaths);
-        return formatHistoricalData(caseEntries, deathEntries, countryName);
-        // TODO combine vaccine data with other historical data here
+        const caseEntries = Object.entries(historicalRes.data.timeline.cases);
+        const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
+        const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
+        return countryHistoryData.map((record) => ({
+            ...record,
+            totalVaccines: vaccineRes.data[record.rawDate] || 0
+        }));
     } catch (ex) {
         if (ex.response.status === 404) {
             return [];
