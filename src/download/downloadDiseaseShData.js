@@ -107,7 +107,7 @@ const downloadHistoricalDataCountry = async (countryName) => {
         const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
         return countryHistoryData.map((record) => ({
             ...record,
-            totalVaccines: vaccineRes.data[record.rawDate] || 0
+            totalVaccines: vaccineRes.data.timeline[record.rawDate] || 0
         }));
     } catch (ex) {
         if (ex.response.status === 404) {

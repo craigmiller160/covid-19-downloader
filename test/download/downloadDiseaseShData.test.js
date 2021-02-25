@@ -35,6 +35,7 @@ const historyDataWorldFormatted = require('../__data__/historyDataWorld.formatte
 const historyDataUSARaw = require('../__data__/historyDataUSA.raw');
 const historyDataUSAFormatted = require('../__data__/historyDataUSA.formatted');
 const vaccineDataWorldRaw = require('../__data__/vaccineDataWorld.raw');
+const vaccineDataUsaRaw = require('../__data__/vaccineDataUSA.raw');
 
 const mockApi = new MockAdapter(axios);
 
@@ -64,13 +65,14 @@ describe('downloadDiseaseShData', () => {
     });
 
     it('downloadHistoricalDataCountry', async () => {
-        const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
-        mockApi.onGet(url)
+        const historicalUrl = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
+        const vaccineUrl = `${BASE_URL}${VACCINE_URI}/countries/USA?lastdays=${lastDays}`;
+        mockApi.onGet(historicalUrl)
             .reply(200, historyDataUSARaw);
+        mockApi.onGet(vaccineUrl)
+            .reply(200, vaccineDataUsaRaw);
         const result = await downloadHistoricalDataCountry('USA');
         expect(result).toEqual(historyDataUSAFormatted);
-        // TODO need vaccine data
-        throw new Error();
     });
 
     it('downloadHistoricalDataCountry not found', async () => {
