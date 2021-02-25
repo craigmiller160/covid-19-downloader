@@ -79,10 +79,12 @@ const downloadHistoricalDataWorld = async () => {
     try {
         const lastDays = moment().diff(oldestDate, 'days');
         const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`);
+        // TODO get vaccine data
 
         const caseEntries = Object.entries(res.data.cases);
         const deathEntries = Object.entries(res.data.deaths);
         return formatHistoricalData(caseEntries, deathEntries, 'World');
+        // TODO integrate vaccine data
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
     }
@@ -93,10 +95,12 @@ const downloadHistoricalDataCountry = async (countryName) => {
     try {
         const lastDays = moment().diff(oldestDate, 'days');
         const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
+        // TODO add vaccine call here
 
         const caseEntries = Object.entries(res.data.timeline.cases);
         const deathEntries = Object.entries(res.data.timeline.deaths);
         return formatHistoricalData(caseEntries, deathEntries, countryName);
+        // TODO combine vaccine data with other historical data here
     } catch (ex) {
         if (ex.response.status === 404) {
             return [];

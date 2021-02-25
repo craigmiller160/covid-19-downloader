@@ -56,6 +56,8 @@ describe('downloadDiseaseShData', () => {
             .reply(200, historyDataWorldRaw);
         const result = await downloadHistoricalDataWorld();
         expect(result).toEqual(historyDataWorldFormatted);
+        // TODO need vaccine data
+        throw new Error();
     });
 
     it('downloadHistoricalDataCountry', async () => {
@@ -64,6 +66,8 @@ describe('downloadDiseaseShData', () => {
             .reply(200, historyDataUSARaw);
         const result = await downloadHistoricalDataCountry('USA');
         expect(result).toEqual(historyDataUSAFormatted);
+        // TODO need vaccine data
+        throw new Error();
     });
 
     it('downloadHistoricalDataCountry not found', async () => {
