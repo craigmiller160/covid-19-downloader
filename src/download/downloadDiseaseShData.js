@@ -121,5 +121,6 @@ module.exports = {
     downloadHistoricalDataCountry,
     BASE_URL,
     COUNTRIES_CURRENT_URI,
-    HISTORICAL_URI
+    HISTORICAL_URI,
+    VACCINE_URI
 };
