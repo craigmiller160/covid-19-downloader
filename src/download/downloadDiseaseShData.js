@@ -24,6 +24,7 @@ const TraceError = require('trace-error');
 const BASE_URL = 'https://corona.lmao.ninja/v3/covid-19';
 const COUNTRIES_CURRENT_URI = '/countries';
 const HISTORICAL_URI = '/historical';
+const VACCINE_URI = '/vaccine/coverage';
 
 const oldestDate = moment('2020-01-01');
 
@@ -62,6 +63,7 @@ const formatHistoricalData = (caseEntries, deathEntries, location) => {
             const totalDeaths = deathEntries[index][1];
             const newRecord = {
                 location,
+                rawDate,
                 date: moment(rawDate, 'M/DD/YY').toDate(),
                 newCases: totalCases - lastRecord.totalCases,
                 totalCases,
@@ -78,11 +80,16 @@ const downloadHistoricalDataWorld = async () => {
     logger.info('Attempting to download Disease.sh data on world historical stats');
     try {
         const lastDays = moment().diff(oldestDate, 'days');
-        const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`);
+        const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`);
+        const vaccineRes = await axios.get(`${BASE_URL}${VACCINE_URI}?lastdays=${lastDays}`);
 
-        const caseEntries = Object.entries(res.data.cases);
-        const deathEntries = Object.entries(res.data.deaths);
-        return formatHistoricalData(caseEntries, deathEntries, 'World');
+        const caseEntries = Object.entries(historicalRes.data.cases);
+        const deathEntries = Object.entries(historicalRes.data.deaths);
+        const worldHistoryData = formatHistoricalData(caseEntries, deathEntries, 'World');
+        return worldHistoryData.map((record) => ({
+            ...record,
+            totalVaccines: vaccineRes.data[record.rawDate] || 0
+        }));
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
     }
@@ -92,11 +99,16 @@ const downloadHistoricalDataCountry = async (countryName) => {
     logger.info(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
     try {
         const lastDays = moment().diff(oldestDate, 'days');
-        const res = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
+        const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
+        const vaccineRes = await axios.get(`${BASE_URL}${VACCINE_URI}/countries/${countryName}?lastdays=${lastDays}`);
 
-        const caseEntries = Object.entries(res.data.timeline.cases);
-        const deathEntries = Object.entries(res.data.timeline.deaths);
-        return formatHistoricalData(caseEntries, deathEntries, countryName);
+        const caseEntries = Object.entries(historicalRes.data.timeline.cases);
+        const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
+        const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
+        return countryHistoryData.map((record) => ({
+            ...record,
+            totalVaccines: vaccineRes.data.timeline[record.rawDate] || 0
+        }));
     } catch (ex) {
         if (ex.response.status === 404) {
             return [];
@@ -112,5 +124,6 @@ module.exports = {
     downloadHistoricalDataCountry,
     BASE_URL,
     COUNTRIES_CURRENT_URI,
-    HISTORICAL_URI
+    HISTORICAL_URI,
+    VACCINE_URI
 };

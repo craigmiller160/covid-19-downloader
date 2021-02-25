@@ -25,7 +25,8 @@ const {
     downloadHistoricalDataWorld,
     BASE_URL,
     COUNTRIES_CURRENT_URI,
-    HISTORICAL_URI
+    HISTORICAL_URI,
+    VACCINE_URI
 } = require('../../src/download/downloadDiseaseShData');
 const currentDataAllCountriesRaw = require('../__data__/currentDataAllCountries.raw');
 const currentDataAllCountriesFormatted = require('../__data__/currentDataAllCountries.formatted');
@@ -33,6 +34,8 @@ const historyDataWorldRaw = require('../__data__/historyDataWorld.raw');
 const historyDataWorldFormatted = require('../__data__/historyDataWorld.formatted');
 const historyDataUSARaw = require('../__data__/historyDataUSA.raw');
 const historyDataUSAFormatted = require('../__data__/historyDataUSA.formatted');
+const vaccineDataWorldRaw = require('../__data__/vaccineDataWorld.raw');
+const vaccineDataUsaRaw = require('../__data__/vaccineDataUSA.raw');
 
 const mockApi = new MockAdapter(axios);
 
@@ -51,17 +54,23 @@ describe('downloadDiseaseShData', () => {
     });
 
     it('downloadHistoricalDataWorld', async () => {
-        const url = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
-        mockApi.onGet(url)
+        const historicalUrl = `${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`;
+        const vaccineUrl = `${BASE_URL}${VACCINE_URI}?lastdays=${lastDays}`;
+        mockApi.onGet(historicalUrl)
             .reply(200, historyDataWorldRaw);
+        mockApi.onGet(vaccineUrl)
+            .reply(200, vaccineDataWorldRaw);
         const result = await downloadHistoricalDataWorld();
         expect(result).toEqual(historyDataWorldFormatted);
     });
 
     it('downloadHistoricalDataCountry', async () => {
-        const url = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
-        mockApi.onGet(url)
+        const historicalUrl = `${BASE_URL}${HISTORICAL_URI}/USA?lastdays=${lastDays}`;
+        const vaccineUrl = `${BASE_URL}${VACCINE_URI}/countries/USA?lastdays=${lastDays}`;
+        mockApi.onGet(historicalUrl)
             .reply(200, historyDataUSARaw);
+        mockApi.onGet(vaccineUrl)
+            .reply(200, vaccineDataUsaRaw);
         const result = await downloadHistoricalDataCountry('USA');
         expect(result).toEqual(historyDataUSAFormatted);
     });
