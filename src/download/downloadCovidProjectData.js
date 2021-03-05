@@ -34,7 +34,7 @@ const executeDownload = async (currentAttempt) => {
 };
 
 const downloadCovidProjectData = async () => {
-    logger.info('Attempting to download The COVID Project data.');
+    logger.debug('Attempting to download The COVID Project data.');
     try {
         const options = {
             retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,

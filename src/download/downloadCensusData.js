@@ -33,7 +33,7 @@ const executeDownload = async (currentAttempt) => {
 };
 
 const downloadCensusData = async () => {
-    logger.info('Attempting to download US Census data');
+    logger.debug('Attempting to download US Census data');
     try {
         const options = {
             retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
