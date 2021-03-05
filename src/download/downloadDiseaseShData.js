@@ -25,7 +25,7 @@ const BASE_URL = 'https://corona.lmao.ninja/v3/covid-19';
 const COUNTRIES_CURRENT_URI = '/countries';
 const HISTORICAL_URI = '/historical';
 const VACCINE_URI = '/vaccine/coverage';
-const DISEASE_SH_DATE_FORMAT = 'M/DD/YY';
+const DISEASE_SH_DATE_FORMAT = 'M/D/YY';
 
 const oldestDate = moment('2020-01-01');
 
