@@ -113,7 +113,9 @@ const downloadDataToMongo = async () => {
     });
 
     try {
+        logger.info('Setting metadata');
         await setMetadata(new Date());
+        logger.info('All data downloaded, calculated, and saved to MongoDB');
     } catch (ex) {
         throw new TraceError('Unable to update metadata after download', ex);
     }
