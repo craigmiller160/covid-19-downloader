@@ -25,6 +25,7 @@ const BASE_URL = 'https://corona.lmao.ninja/v3/covid-19';
 const COUNTRIES_CURRENT_URI = '/countries';
 const HISTORICAL_URI = '/historical';
 const VACCINE_URI = '/vaccine/coverage';
+const DISEASE_SH_DATE_FORMAT = 'M/DD/YY';
 
 const oldestDate = moment('2020-01-01');
 
@@ -105,10 +106,20 @@ const downloadHistoricalDataCountry = async (countryName) => {
         const caseEntries = Object.entries(historicalRes.data.timeline.cases);
         const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
         const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
-        return countryHistoryData.map((record) => ({
-            ...record,
-            totalVaccines: vaccineRes.data.timeline[record.rawDate] || 0
-        }));
+
+        return countryHistoryData.map((record) => {
+            const totalVaccines = vaccineRes.data.timeline[record.rawDate] || 0;
+            const previousDate = moment(record.rawDate, DISEASE_SH_DATE_FORMAT)
+                .subtract(1, 'days')
+                .format(DISEASE_SH_DATE_FORMAT);
+            const previousTotalVaccines = vaccineRes.data.timeline[previousDate] || 0;
+            const newVaccines = totalVaccines - previousTotalVaccines;
+            return {
+                ...record,
+                totalVaccines,
+                newVaccines
+            };
+        });
     } catch (ex) {
         if (ex.response.status === 404) {
             return [];
