@@ -29,7 +29,7 @@ const VACCINE_URI = '/vaccine/coverage';
 const oldestDate = moment('2020-01-01');
 
 const downloadCurrentDataAllCountries = async () => {
-    logger.info('Attempting to download Disease.sh data on current stats for all countries');
+    logger.debug('Attempting to download Disease.sh data on current stats for all countries');
     try {
         const res = await axios.get(`${BASE_URL}${COUNTRIES_CURRENT_URI}`);
         return res.data.map((record) => ({
@@ -77,7 +77,7 @@ const formatHistoricalData = (caseEntries, deathEntries, location) => {
 };
 
 const downloadHistoricalDataWorld = async () => {
-    logger.info('Attempting to download Disease.sh data on world historical stats');
+    logger.debug('Attempting to download Disease.sh data on world historical stats');
     try {
         const lastDays = moment().diff(oldestDate, 'days');
         const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`);
@@ -96,7 +96,7 @@ const downloadHistoricalDataWorld = async () => {
 };
 
 const downloadHistoricalDataCountry = async (countryName) => {
-    logger.info(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
+    logger.debug(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
     try {
         const lastDays = moment().diff(oldestDate, 'days');
         const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
