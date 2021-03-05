@@ -25,6 +25,7 @@ const BASE_URL = 'https://corona.lmao.ninja/v3/covid-19';
 const COUNTRIES_CURRENT_URI = '/countries';
 const HISTORICAL_URI = '/historical';
 const VACCINE_URI = '/vaccine/coverage';
+const DISEASE_SH_DATE_FORMAT = 'M/DD/YY';
 
 const oldestDate = moment('2020-01-01');
 
@@ -76,6 +77,20 @@ const formatHistoricalData = (caseEntries, deathEntries, location) => {
         });
 };
 
+const addVaccineDataToRecord = (baseRecord, vaccineTimeline) => {
+    const totalVaccines = vaccineTimeline[baseRecord.rawDate] || 0;
+    const previousDate = moment(baseRecord.rawDate, DISEASE_SH_DATE_FORMAT)
+        .subtract(1, 'days')
+        .format(DISEASE_SH_DATE_FORMAT);
+    const previousTotalVaccines = vaccineTimeline[previousDate] || 0;
+    const newVaccines = totalVaccines - previousTotalVaccines;
+    return {
+        ...baseRecord,
+        totalVaccines,
+        newVaccines
+    };
+};
+
 const downloadHistoricalDataWorld = async () => {
     logger.debug('Attempting to download Disease.sh data on world historical stats');
     try {
@@ -86,10 +101,8 @@ const downloadHistoricalDataWorld = async () => {
         const caseEntries = Object.entries(historicalRes.data.cases);
         const deathEntries = Object.entries(historicalRes.data.deaths);
         const worldHistoryData = formatHistoricalData(caseEntries, deathEntries, 'World');
-        return worldHistoryData.map((record) => ({
-            ...record,
-            totalVaccines: vaccineRes.data[record.rawDate] || 0
-        }));
+
+        return worldHistoryData.map((record) => addVaccineDataToRecord(record, vaccineRes.data));
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
     }
@@ -105,10 +118,8 @@ const downloadHistoricalDataCountry = async (countryName) => {
         const caseEntries = Object.entries(historicalRes.data.timeline.cases);
         const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
         const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
-        return countryHistoryData.map((record) => ({
-            ...record,
-            totalVaccines: vaccineRes.data.timeline[record.rawDate] || 0
-        }));
+
+        return countryHistoryData.map((record) => addVaccineDataToRecord(record, vaccineRes.data.timeline));
     } catch (ex) {
         if (ex.response.status === 404) {
             return [];

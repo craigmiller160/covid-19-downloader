@@ -25,6 +25,7 @@ module.exports = [
         totalCases: 555,
         totalDeaths: 17,
         rawDate: '1/22/20',
+        newVaccines: 0,
         totalVaccines: 0
     },
     {
@@ -35,6 +36,7 @@ module.exports = [
         totalCases: 654,
         totalDeaths: 18,
         rawDate: '1/23/20',
+        newVaccines: 0,
         totalVaccines: 0
     },
     {
@@ -45,6 +47,7 @@ module.exports = [
         totalCases: 941,
         totalDeaths: 26,
         rawDate: '1/24/20',
+        newVaccines: 10,
         totalVaccines: 10
     },
     {
@@ -55,6 +58,7 @@ module.exports = [
         totalCases: 1434,
         totalDeaths: 42,
         rawDate: '1/25/20',
+        newVaccines: 10,
         totalVaccines: 20
     },
     {
@@ -65,6 +69,7 @@ module.exports = [
         totalCases: 2118,
         totalDeaths: 56,
         rawDate: '1/26/20',
+        newVaccines: 10,
         totalVaccines: 30
     },
     {
@@ -75,7 +80,8 @@ module.exports = [
         totalCases: 2927,
         totalDeaths: 82,
         rawDate: '1/27/20',
-        totalVaccines: 40
+        newVaccines: 15,
+        totalVaccines: 45
     },
     {
         date: new Date('2020-01-28T05:00:00Z'),
@@ -85,6 +91,7 @@ module.exports = [
         totalCases: 5578,
         totalDeaths: 131,
         rawDate: '1/28/20',
+        newVaccines: 5,
         totalVaccines: 50
     }
 ]
