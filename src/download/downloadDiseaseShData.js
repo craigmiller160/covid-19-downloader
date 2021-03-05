@@ -119,19 +119,7 @@ const downloadHistoricalDataCountry = async (countryName) => {
         const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
         const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
 
-        return countryHistoryData.map((record) => {
-            const totalVaccines = vaccineRes.data.timeline[record.rawDate] || 0;
-            const previousDate = moment(record.rawDate, DISEASE_SH_DATE_FORMAT)
-                .subtract(1, 'days')
-                .format(DISEASE_SH_DATE_FORMAT);
-            const previousTotalVaccines = vaccineRes.data.timeline[previousDate] || 0;
-            const newVaccines = totalVaccines - previousTotalVaccines;
-            return {
-                ...record,
-                totalVaccines,
-                newVaccines
-            };
-        });
+        return countryHistoryData.map((record) => addVaccineDataToRecord(record, vaccineRes.data.timeline));
     } catch (ex) {
         if (ex.response.status === 404) {
             return [];
