@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: covid-19-downloader
-          image: craigmiller160.ddns.net:30004/covid-19-downloader:1.6.1
+          image: craigmiller160.ddns.net:30004/covid-19-downloader:1.6.2
           ports:
             - containerPort: 3000
           envFrom:
