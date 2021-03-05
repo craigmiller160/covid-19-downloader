@@ -77,6 +77,20 @@ const formatHistoricalData = (caseEntries, deathEntries, location) => {
         });
 };
 
+const addVaccineDataToRecord = (baseRecord, vaccineTimeline) => {
+    const totalVaccines = vaccineTimeline[baseRecord.rawDate] || 0;
+    const previousDate = moment(baseRecord.rawDate, DISEASE_SH_DATE_FORMAT)
+        .subtract(1, 'days')
+        .format(DISEASE_SH_DATE_FORMAT);
+    const previousTotalVaccines = vaccineTimeline[previousDate] || 0;
+    const newVaccines = totalVaccines - previousTotalVaccines;
+    return {
+        ...baseRecord,
+        totalVaccines,
+        newVaccines
+    };
+};
+
 const downloadHistoricalDataWorld = async () => {
     logger.debug('Attempting to download Disease.sh data on world historical stats');
     try {
@@ -87,10 +101,8 @@ const downloadHistoricalDataWorld = async () => {
         const caseEntries = Object.entries(historicalRes.data.cases);
         const deathEntries = Object.entries(historicalRes.data.deaths);
         const worldHistoryData = formatHistoricalData(caseEntries, deathEntries, 'World');
-        return worldHistoryData.map((record) => ({
-            ...record,
-            totalVaccines: vaccineRes.data[record.rawDate] || 0
-        }));
+
+        return worldHistoryData.map((record) => addVaccineDataToRecord(record, vaccineRes.data));
     } catch (ex) {
         throw new TraceError('Unable to download Disease.sh data on world historical stats', ex);
     }
