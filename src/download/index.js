@@ -54,10 +54,11 @@ const handleWorldData = async () => {
         const countryCurrentData = await downloadCurrentDataAllCountries();
         const countryList = countryCurrentData.map((country) => ({
             location: country.location,
-            displayLocation: country.displayLocation
+            displayLocation: country.displayLocation,
+            population: country.population
         }));
         const worldHistoricalData = await downloadHistoricalDataWorld();
-        const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location));
+        const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location, country.population));
         const countryHistories = await Promise.all(countryHistoryPromises);
         const countryHistoricalData = countryHistories.reduce((acc, history) => ([
             ...acc,

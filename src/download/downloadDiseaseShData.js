@@ -47,7 +47,7 @@ const downloadCurrentDataAllCountries = async () => {
     }
 };
 
-const formatHistoricalData = (caseEntries, deathEntries, location) => {
+const formatHistoricalData = (caseEntries, deathEntries, location, population) => {
     let lastRecord = {
         date: null,
         location: null,
@@ -64,6 +64,7 @@ const formatHistoricalData = (caseEntries, deathEntries, location) => {
             const totalDeaths = deathEntries[index][1];
             const newRecord = {
                 location,
+                population,
                 rawDate,
                 date: moment(rawDate, 'M/DD/YY').toDate(),
                 newCases: totalCases - lastRecord.totalCases,
@@ -108,7 +109,7 @@ const downloadHistoricalDataWorld = async () => {
     }
 };
 
-const downloadHistoricalDataCountry = async (countryName) => {
+const downloadHistoricalDataCountry = async (countryName, population) => {
     logger.debug(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
     try {
         const lastDays = moment().diff(oldestDate, 'days');
@@ -117,7 +118,7 @@ const downloadHistoricalDataCountry = async (countryName) => {
 
         const caseEntries = Object.entries(historicalRes.data.timeline.cases);
         const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
-        const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
+        const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName, population);
 
         return countryHistoryData.map((record) => addVaccineDataToRecord(record, vaccineRes.data.timeline));
     } catch (ex) {
