@@ -21,16 +21,13 @@ const TraceError = require('trace-error');
 
 const COLLECTION = 'country_current';
 
-const setCountryCurrentData = async (countryDataArray) => {
+const setCountryCurrentData = async (countryData) => {
     try {
         await connect(async (db) => {
             await db.collection(COLLECTION)
                 .deleteMany();
-            const mongoOpPromises = countryDataArray.map((countryData) =>
-                db.collection(COLLECTION)
-                    .insertMany(countryData)
-            );
-            await Promise.all(mongoOpPromises);
+            await db.collection(COLLECTION)
+                .insertMany(countryData);
         });
     } catch (ex) {
         throw new TraceError('Error setting current country data', ex);
