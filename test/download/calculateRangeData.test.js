@@ -74,6 +74,7 @@ const expectedResult = {
 
 describe('calculateRangeData', () => {
     it('calculates ranges', () => {
-        throw new Error();
+        const result = calculateRangeData(mockData);
+        expect(result).toEqual(expectedResult);
     });
 });

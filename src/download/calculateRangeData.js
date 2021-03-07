@@ -40,10 +40,8 @@ const calculateRangeData = (data) => {
                 lastRecord: record
             };
         }, {});
-    return {
-        ...organizedData,
-        lastRecord: undefined
-    };
+    delete organizedData.lastRecord;
+    return organizedData;
 };
 
 module.exports = {
