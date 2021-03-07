@@ -13,6 +13,7 @@ const calculateRangeData = (data) => {
     const organizedData = data
         .reduce((acc, record, index) => {
             const monthYear = moment(record.date).format(MONTH_YEAR_FORMAT);
+            const lastMonthYear = acc.lastRecord ? moment(acc.lastRecord.date).format(MONTH_YEAR_FORMAT) : null;
             if (index === 0) {
                 return {
                     ...acc,
@@ -22,8 +23,7 @@ const calculateRangeData = (data) => {
                 }
             }
 
-            const sameMonth = !!acc[monthYear];
-            if (!sameMonth) {
+            if (monthYear !== lastMonthYear) {
                 const lastMonthYear = moment(acc.lastRecord.date).format(MONTH_YEAR_FORMAT);
                 return {
                     ...acc,
