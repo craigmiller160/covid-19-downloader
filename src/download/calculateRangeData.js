@@ -16,21 +16,34 @@ const calculateRangeData = (data) => {
             if (index === 0) {
                 return {
                     ...acc,
-                    [monthYear]: {
-                        [`startTotalCases_${monthYear}`]: record.totalCases,
-                        [`startTotalDeaths_${monthYear}`]: record.totalDeaths
-                    }
+                    [`startTotalCases_${monthYear}`]: record.totalCases,
+                    [`startTotalDeaths_${monthYear}`]: record.totalDeaths,
+                    lastRecord: record
                 }
             }
 
             const sameMonth = !!acc[monthYear];
-
+            if (!sameMonth) {
+                const lastMonthYear = moment(acc.lastRecord.date).format(MONTH_YEAR_FORMAT);
+                return {
+                    ...acc,
+                    [`endTotalCases_${lastMonthYear}`]: acc.lastRecord.totalCases,
+                    [`endTotalDeaths_${lastMonthYear}`]: acc.lastRecord.totalDeaths,
+                    [`startTotalCases_${monthYear}`]: record.totalCases,
+                    [`startTotalDeaths_${monthYear}`]: record.totalDeaths,
+                    lastRecord: record
+                };
+            }
 
             return {
-                ...acc
+                ...acc,
+                lastRecord: record
             };
         }, {});
-    return Object.values(organizedData);
+    return {
+        ...organizedData,
+        lastRecord: undefined
+    };
 };
 
 module.exports = {
