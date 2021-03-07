@@ -60,16 +60,12 @@ const handleWorldData = async () => {
         const worldHistoricalData = await downloadHistoricalDataWorld();
         const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location, country.population));
         const countryHistories = await Promise.all(countryHistoryPromises);
-        const countryHistoricalData = countryHistories.reduce((acc, history) => ([
-            ...acc,
-            ...history
-        ]), []);
 
         logger.info('Writing world data to MongoDB');
 
         await setCountryList(countryList);
         await setCountryCurrentData(countryCurrentData);
-        await setCountryHistoricalData([ ...worldHistoricalData, ...countryHistoricalData ]);
+        await setCountryHistoricalData([ ...worldHistoricalData, ...countryHistories ]);
 
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
