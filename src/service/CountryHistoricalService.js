@@ -22,13 +22,16 @@ const moment = require('moment');
 
 const COLLECTION = 'country_history';
 
-const setCountryHistoricalData = async (countryData) => {
+const setCountryHistoricalData = async (countryDataArray) => {
     try {
         await connect(async (db) => {
             await db.collection(COLLECTION)
                 .deleteMany();
-            await db.collection(COLLECTION)
-                .insertMany(countryData);
+            const promises = countryDataArray.map((countryData) =>
+                db.collection(COLLECTION)
+                    .insertMany(countryData)
+            );
+            await Promise.all(promises);
         });
     } catch (ex) {
         throw new TraceError('Error setting historical country data', ex);
