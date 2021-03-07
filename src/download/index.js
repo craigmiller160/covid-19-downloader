@@ -41,6 +41,7 @@ const { setStateHistoricalData } = require('../service/StateHistoricalService');
 const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
+const { calculateRangeData } = require('./calculateRangeData');
 const {
     downloadCurrentDataAllCountries,
     downloadHistoricalDataCountry,
@@ -60,6 +61,7 @@ const handleWorldData = async () => {
         const worldHistoricalData = await downloadHistoricalDataWorld();
         const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location, country.population));
         const countryHistories = await Promise.all(countryHistoryPromises);
+        const countryRangeData = countryHistories.map((countryData) => calculateRangeData(countryData));
 
         logger.info('Writing world data to MongoDB');
 
@@ -68,6 +70,7 @@ const handleWorldData = async () => {
         const combinedCountryHistoryData = [ worldHistoricalData, ...countryHistories ]
             .filter((countryData) => countryData.length > 0);
         await setCountryHistoricalData(combinedCountryHistoryData);
+        // TODO need to save country range data
 
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
