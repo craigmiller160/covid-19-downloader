@@ -35,6 +35,14 @@ const calculateRangeData = (data) => {
                 };
             }
 
+            if (index === data.length - 1) {
+                return {
+                    ...acc,
+                    [`endTotalCases_${monthYear}`]: record.totalCases,
+                    [`endTotalDeaths_${monthYear}`]: record.totalDeaths
+                };
+            }
+
             return {
                 ...acc,
                 lastRecord: record
