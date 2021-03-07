@@ -57,6 +57,21 @@ const mockData = [
     }
 ];
 
+const expectedResult = {
+    startTotalCases_202001: 100,
+    startTotalDeaths_202001: 10,
+    endTotalCases_202001: 150,
+    endTotalDeaths_202001: 40,
+    startTotalCases_202002: 160,
+    startTotalDeaths_202002: 41,
+    endTotalCases_202002: 200,
+    endTotalDeaths_202002: 55,
+    startTotalCases_202003: 211,
+    startTotalDeaths_202003: 61,
+    endTotalCases_202003: 310,
+    endTotalDeaths_202003: 113
+};
+
 describe('calculateRangeData', () => {
     it('calculates ranges', () => {
         throw new Error();
