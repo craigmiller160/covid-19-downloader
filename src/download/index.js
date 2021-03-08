@@ -70,9 +70,8 @@ const handleWorldData = async () => {
         await setCountryCurrentData(countryCurrentData);
         const combinedCountryHistoryData = [ worldHistoricalData, ...countryHistories ]
             .filter((countryData) => countryData.length > 0);
-        const filteredCountryCompareData = countryRangeData.filter((data) => data.length > 0);
         await setCountryHistoricalData(combinedCountryHistoryData);
-        await setCountryCompareData(filteredCountryCompareData);
+        await setCountryCompareData(countryRangeData);
 
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
