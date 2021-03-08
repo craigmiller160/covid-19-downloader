@@ -17,6 +17,7 @@ const calculateRangeData = (data) => {
             if (index === 0) {
                 return {
                     ...acc,
+                    location: record.location,
                     [`startTotalCases_${monthYear}`]: record.totalCases,
                     [`startTotalDeaths_${monthYear}`]: record.totalDeaths,
                     lastRecord: record

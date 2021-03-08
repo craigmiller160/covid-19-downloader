@@ -69,7 +69,8 @@ const expectedResult = {
     startTotalCases_202003: 211,
     startTotalDeaths_202003: 61,
     endTotalCases_202003: 310,
-    endTotalDeaths_202003: 113
+    endTotalDeaths_202003: 113,
+    location: 'USA'
 };
 
 describe('calculateRangeData', () => {
