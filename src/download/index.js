@@ -62,7 +62,9 @@ const handleWorldData = async () => {
         const worldHistoricalData = await downloadHistoricalDataWorld();
         const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location, country.population));
         const countryHistories = await Promise.all(countryHistoryPromises);
-        const countryRangeData = countryHistories.map((countryData) => calculateRangeData(countryData));
+        const countryRangeData = countryHistories
+            .filter((countryData) => countryData.length > 0)
+            .map((countryData) => calculateRangeData(countryData));
 
         logger.info('Writing world data to MongoDB');
 
