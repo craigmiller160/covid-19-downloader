@@ -21,7 +21,8 @@ const calculateRangeData = (data) => {
                     [`startTotalCases_${monthYear}`]: record.totalCases,
                     [`startTotalDeaths_${monthYear}`]: record.totalDeaths,
                     lastRecord: record,
-                    population: record.population
+                    population: record.population,
+                    firstDate: moment(record.date).toDate()
                 }
             }
 
@@ -41,7 +42,8 @@ const calculateRangeData = (data) => {
                 return {
                     ...acc,
                     [`endTotalCases_${monthYear}`]: record.totalCases,
-                    [`endTotalDeaths_${monthYear}`]: record.totalDeaths
+                    [`endTotalDeaths_${monthYear}`]: record.totalDeaths,
+                    lastDate: moment(record.date).toDate()
                 };
             }
 
