@@ -80,7 +80,9 @@ const expectedResult = {
     endTotalCases_202003: 310,
     endTotalDeaths_202003: 113,
     location: 'USA',
-    population: 1000
+    population: 1000,
+    firstDate: new Date('2020-01-01T05:00:00Z'),
+    lastDate: new Date('2020-03-31T05:00:00Z')
 };
 
 describe('calculateRangeData', () => {
