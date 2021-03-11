@@ -20,7 +20,8 @@ const calculateRangeData = (data) => {
                     location: record.location,
                     [`startTotalCases_${monthYear}`]: record.totalCases,
                     [`startTotalDeaths_${monthYear}`]: record.totalDeaths,
-                    lastRecord: record
+                    lastRecord: record,
+                    population: record.population
                 }
             }
 
