@@ -28,6 +28,11 @@ const addPopulationData = (stateHistoricalData, censusData) => {
     });
 };
 
+const splitStateData = (stateHistoricalData) => {
+    // TODO finish this
+};
+
 module.exports = {
-    addPopulationData
+    addPopulationData,
+    splitStateData
 };

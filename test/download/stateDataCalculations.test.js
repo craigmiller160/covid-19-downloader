@@ -87,4 +87,8 @@ describe('stateDataCalculations', () => {
         const result = addPopulationData(historyData, censusData);
         expect(result).toEqual(expectedWithPop);
     });
+
+    it('splitStateData', () => {
+        throw new Error();
+    });
 });
