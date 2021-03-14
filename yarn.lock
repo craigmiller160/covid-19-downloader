@@ -278,10 +278,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@craigmiller160/covid-19-config-mongo@^1.3.0-beta":
-  version "1.3.0-beta.1"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/covid-19-config-mongo/-/covid-19-config-mongo-1.3.0-beta.1.tgz#93de0cf99e4940cb5265dc90c22346e659e4e510"
-  integrity sha512-W45MNwv8pw9K4CUguPZ1eLa1pNDfKWpzJvZRsIPbLjtgBQNZRA1pyTOvHbciR5ITx/lZLFtWNo2Z9igxbq6/sw==
+"@craigmiller160/covid-19-config-mongo@1.3.0":
+  version "1.3.0"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/covid-19-config-mongo/-/covid-19-config-mongo-1.3.0.tgz#1007f0c9a95ffd04e13db97209c34352a17a5e22"
+  integrity sha512-kNPlyWrHQcfKEHbc/Amhp3RNfsjadDOI63LTuW+fxNvRRD+qc1hTt4hFISvUzb/xM9KU8MlQsvAdLu2Eag95GQ==
   dependencies:
     cloud-config-client "^1.5.2"
     mongodb "^3.5.8"
