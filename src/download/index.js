@@ -48,6 +48,9 @@ const {
     downloadHistoricalDataCountry,
     downloadHistoricalDataWorld
 } = require('./downloadDiseaseShData');
+const {
+    addPopulationData
+} = require('./stateDataCalculations');
 
 const handleWorldData = async () => {
     try {
@@ -99,12 +102,10 @@ const handleStateData = async () => {
         logger.info('Running calculations on state data');
 
         const states = createStateList(covidProjData.data);
-        const stateHistoricalData = calculateDoubling(calculateHistoricalTotals(covidProjData.data));
-        const stateCurrentData = addStateDisplayLocation(calculatePerMillion(combinePopulationData(calculateGrandTotal(stateHistoricalData), censusData.data)));
+        const stateHistoricalData = addPopulationData(calculateDoubling(calculateHistoricalTotals(covidProjData.data)), censusData.data);
 
         logger.info('Writing state data to MongoDB');
 
-        await setStateCurrentData(stateCurrentData);
         await setStateHistoricalData(stateHistoricalData);
         await setStateList(states);
         return 'Successfully downloaded state data and inserted into MongoDB';
