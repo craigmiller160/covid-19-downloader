@@ -41,6 +41,7 @@ const { setStateHistoricalData } = require('../service/StateHistoricalService');
 const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
 const { setCountryCompareData } = require('../service/CountryCompareService');
+const { setStateCompareData } = require('../service/StateCompareService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
 const { calculateRangeData } = require('./calculateRangeData');
 const {
@@ -116,6 +117,7 @@ const handleStateData = async () => {
 
         await setStateHistoricalData(stateHistoricalData);
         await setStateList(states);
+        await setStateCompareData(stateCompareData);
         return 'Successfully downloaded state data and inserted into MongoDB';
     } catch (ex) {
         throw new TraceError('Error downloading or inserting into MongoDB state data', ex);
