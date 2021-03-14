@@ -1,6 +1,6 @@
 /*
  *     covid-19-downloader
- *     Copyright (C) 2020 Craig Miller
+ *     Copyright (C) 2021 Craig Miller
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,22 @@
 
 const { connect } = require('@craigmiller160/covid-19-config-mongo');
 const TraceError = require('trace-error');
-const moment = require('moment');
 
-const COLLECTION = 'country_history';
+const COLLECTION = 'country_compare';
 
-const setCountryHistoricalData = async (countryDataArray) => {
+const setCountryCompareData = async (countryCompareData) => {
     try {
         await connect(async (db) => {
             await db.collection(COLLECTION)
                 .deleteMany();
-            const promises = countryDataArray.map((countryData) =>
-                db.collection(COLLECTION)
-                    .insertMany(countryData)
-            );
-            await Promise.all(promises);
+            await db.collection(COLLECTION)
+                .insertMany(countryCompareData);
         });
     } catch (ex) {
-        throw new TraceError('Error setting historical country data', ex);
+        throw new TraceError(`Error setting country compare data`, ex);
     }
 };
 
 module.exports = {
-    setCountryHistoricalData
+    setCountryCompareData
 };

@@ -278,10 +278,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@craigmiller160/covid-19-config-mongo@1.2.4":
-  version "1.2.4"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/covid-19-config-mongo/-/covid-19-config-mongo-1.2.4.tgz#02fe7575260292f5de5c9c22a4fd4610407de050"
-  integrity sha512-eI7JZqJylaXjfyL4zehRC82igC/Im70X/29Ev1U7H2ucdtLopgWqK2g215kHmy5sYgH1T/TMiGLPUrdG41aOAQ==
+"@craigmiller160/covid-19-config-mongo@^1.3.0-beta":
+  version "1.3.0-beta.1"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/covid-19-config-mongo/-/covid-19-config-mongo-1.3.0-beta.1.tgz#93de0cf99e4940cb5265dc90c22346e659e4e510"
+  integrity sha512-W45MNwv8pw9K4CUguPZ1eLa1pNDfKWpzJvZRsIPbLjtgBQNZRA1pyTOvHbciR5ITx/lZLFtWNo2Z9igxbq6/sw==
   dependencies:
     cloud-config-client "^1.5.2"
     mongodb "^3.5.8"
@@ -1292,10 +1292,10 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-dateformat@^3.0.3:
-  version "3.0.3"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
-  integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
+dateformat@^4.5.1:
+  version "4.5.1"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/dateformat/-/dateformat-4.5.1.tgz#c20e7a9ca77d147906b6dc2261a8be0a5bd2173c"
+  integrity sha512-OD0TZ+B7yP7ZgpJf5K2DIbj3FZvFvxgFUuaqA/V5zTjAtAAXZ1E8bktHxmAGs4x5b7PflqA9LeQ84Og7wYtF7Q==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
@@ -2941,9 +2941,9 @@ moment@^2.26.0:
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 mongodb@^3.5.8:
-  version "3.6.3"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/mongodb/-/mongodb-3.6.3.tgz#eddaed0cc3598474d7a15f0f2a5b04848489fd05"
-  integrity sha512-rOZuR0QkodZiM+UbQE5kDsJykBqWi0CL4Ec2i1nrGrUI3KO11r6Fbxskqmq3JK2NH7aW4dcccBuUujAP0ERl5w==
+  version "3.6.4"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/mongodb/-/mongodb-3.6.4.tgz#ca59fd65b06831308262372ef9df6b78f9da97be"
+  integrity sha512-Y+Ki9iXE9jI+n9bVtbTOOdK0B95d6wVGSucwtBkvQ+HIvVdTCfpVRp01FDC24uhC/Q2WXQ8Lpq3/zwtB5Op9Qw==
   dependencies:
     bl "^2.2.1"
     bson "^1.1.4"
@@ -3224,14 +3224,14 @@ picomatch@^2.0.4, picomatch@^2.0.5:
   integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
 
 pino-pretty@^4.0.0:
-  version "4.3.0"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/pino-pretty/-/pino-pretty-4.3.0.tgz#18695606fd4f1e21cd1585d18999cd84d429e1d8"
-  integrity sha512-uEc9SUCCGVEs0goZvyznKXBHtI1PNjGgqHviJHxOCEFEWZN6Z/IQKv5pO9gSdm/b+WfX+/dfheWhtZUyScqjlQ==
+  version "4.7.1"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/pino-pretty/-/pino-pretty-4.7.1.tgz#499cf185e110399deae731221c899915c811bd1a"
+  integrity sha512-ILE5YBpur88FlZ0cr1BNqVjgG9fOoK+md3peqmcs7AC6oq7SNiaJioIcrykMxfNsuygMYjUJtvAcARRE9aRc9w==
   dependencies:
     "@hapi/bourne" "^2.0.0"
     args "^5.0.1"
     chalk "^4.0.0"
-    dateformat "^3.0.3"
+    dateformat "^4.5.1"
     fast-safe-stringify "^2.0.7"
     jmespath "^0.15.0"
     joycon "^2.2.5"
@@ -3246,9 +3246,9 @@ pino-std-serializers@^3.1.0:
   integrity sha512-EqX4pwDPrt3MuOAAUBMU0Tk5kR/YcCM5fNPEzgCO2zJ5HfX0vbiH9HbJglnyeQsN96Kznae6MWD47pZB5avTrg==
 
 pino@^6.3.1:
-  version "6.11.0"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/pino/-/pino-6.11.0.tgz#c474712d462f1de524cf885257d21271d1ab7c16"
-  integrity sha512-VPqEE2sU1z6wqkTtr7DdTktayTNE/JgeuWjfXh9g/TI6X7venzv4gaoU24/jSywf6bBeDfZRHWEeO/6f8bNppA==
+  version "6.11.1"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/pino/-/pino-6.11.1.tgz#5af2d5395cfe625ead9fe64a3b51a4802cd2598e"
+  integrity sha512-PoDR/4jCyaP1k2zhuQ4N0NuhaMtei+C9mUHBRRJQujexl/bq3JkeL2OC23ada6Np3zeUMHbO4TGzY2D/rwZX3w==
   dependencies:
     fast-redact "^3.0.0"
     fast-safe-stringify "^2.0.7"
@@ -3742,9 +3742,9 @@ snapdragon@^0.8.1:
     use "^3.1.0"
 
 sonic-boom@^1.0.2:
-  version "1.3.0"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/sonic-boom/-/sonic-boom-1.3.0.tgz#5c77c846ce6c395dddf2eb8e8e65f9cc576f2e76"
-  integrity sha512-4nX6OYvOYr6R76xfQKi6cZpTO3YSWe/vd+QdIfoH0lBy0MnPkeAbb2rRWgmgADkXUeCKPwO1FZAKlAVWAadELw==
+  version "1.3.2"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/sonic-boom/-/sonic-boom-1.3.2.tgz#169c2671397a490adffb070510d516544a65c0ed"
+  integrity sha512-/B4tAuK2+hIlR94GhhWU1mJHWk5lt0CEuBvG0kvk1qIAzQc4iB1TieMio8DCZxY+Y7tsuzOxSUDOGmaUm3vXMg==
   dependencies:
     atomic-sleep "^1.0.0"
     flatstr "^1.0.12"

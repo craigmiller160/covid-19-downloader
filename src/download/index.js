@@ -40,12 +40,20 @@ const { setStateCurrentData } = require('../service/StateCurrentService');
 const { setStateHistoricalData } = require('../service/StateHistoricalService');
 const { setStateList } = require('../service/StateListService');
 const { setMetadata } = require('../service/MetadataService');
+const { setCountryCompareData } = require('../service/CountryCompareService');
+const { setStateCompareData } = require('../service/StateCompareService');
 const { logger } = require('@craigmiller160/covid-19-config-mongo');
+const { calculateRangeData } = require('./calculateRangeData');
 const {
     downloadCurrentDataAllCountries,
     downloadHistoricalDataCountry,
     downloadHistoricalDataWorld
 } = require('./downloadDiseaseShData');
+const {
+    addPopulationData,
+    splitStateData
+} = require('./stateDataCalculations');
+const staticStateList = require('../utils/states');
 
 const handleWorldData = async () => {
     try {
@@ -54,21 +62,31 @@ const handleWorldData = async () => {
         const countryCurrentData = await downloadCurrentDataAllCountries();
         const countryList = countryCurrentData.map((country) => ({
             location: country.location,
-            displayLocation: country.displayLocation
+            displayLocation: country.displayLocation,
+            population: country.population
         }));
         const worldHistoricalData = await downloadHistoricalDataWorld();
-        const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location));
+        const countryHistoryPromises = countryList.map((country) => downloadHistoricalDataCountry(country.location, country.population));
         const countryHistories = await Promise.all(countryHistoryPromises);
-        const countryHistoricalData = countryHistories.reduce((acc, history) => ([
-            ...acc,
-            ...history
-        ]), []);
+        const countryRangeData = countryHistories
+            .filter((countryData) => countryData.length > 0)
+            .map((countryData) => calculateRangeData(countryData))
+            .map((countryData) => {
+                const country = countryList.find((countryRecord) => countryRecord.location === countryData.location);
+                return {
+                    ...countryData,
+                    displayLocation: country?.displayLocation
+                };
+            });
 
         logger.info('Writing world data to MongoDB');
 
         await setCountryList(countryList);
         await setCountryCurrentData(countryCurrentData);
-        await setCountryHistoricalData([ ...worldHistoricalData, ...countryHistoricalData ]);
+        const combinedCountryHistoryData = [ worldHistoricalData, ...countryHistories ]
+            .filter((countryData) => countryData.length > 0);
+        await setCountryHistoricalData(combinedCountryHistoryData);
+        await setCountryCompareData(countryRangeData);
 
         return 'Successfully downloaded world data and inserted into MongoDB';
     } catch (ex) {
@@ -87,14 +105,19 @@ const handleStateData = async () => {
         logger.info('Running calculations on state data');
 
         const states = createStateList(covidProjData.data);
-        const stateHistoricalData = calculateDoubling(calculateHistoricalTotals(covidProjData.data));
-        const stateCurrentData = addStateDisplayLocation(calculatePerMillion(combinePopulationData(calculateGrandTotal(stateHistoricalData), censusData.data)));
+        const stateHistoricalData = addPopulationData(calculateDoubling(calculateHistoricalTotals(covidProjData.data)), censusData.data);
+        const stateCompareData = splitStateData(stateHistoricalData)
+            .map((stateData) => calculateRangeData(stateData))
+            .map((record) => ({
+                ...record,
+                displayLocation: staticStateList[record.location]
+            }));
 
         logger.info('Writing state data to MongoDB');
 
-        await setStateCurrentData(stateCurrentData);
         await setStateHistoricalData(stateHistoricalData);
         await setStateList(states);
+        await setStateCompareData(stateCompareData);
         return 'Successfully downloaded state data and inserted into MongoDB';
     } catch (ex) {
         throw new TraceError('Error downloading or inserting into MongoDB state data', ex);

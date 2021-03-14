@@ -32,7 +32,11 @@ const oldestDate = moment('2020-01-01');
 const downloadCurrentDataAllCountries = async () => {
     logger.debug('Attempting to download Disease.sh data on current stats for all countries');
     try {
-        const res = await axios.get(`${BASE_URL}${COUNTRIES_CURRENT_URI}`);
+        const options = {
+            retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
+            minTimeout: process.env.DOWNLOAD_RETRY_WAIT
+        };
+        const res = await attempt(() => axios.get(`${BASE_URL}${COUNTRIES_CURRENT_URI}`), options);
         return res.data.map((record) => ({
             location: record.countryInfo.iso3,
             displayLocation: record.country,
@@ -47,7 +51,7 @@ const downloadCurrentDataAllCountries = async () => {
     }
 };
 
-const formatHistoricalData = (caseEntries, deathEntries, location) => {
+const formatHistoricalData = (caseEntries, deathEntries, location, population) => {
     let lastRecord = {
         date: null,
         location: null,
@@ -64,6 +68,7 @@ const formatHistoricalData = (caseEntries, deathEntries, location) => {
             const totalDeaths = deathEntries[index][1];
             const newRecord = {
                 location,
+                population,
                 rawDate,
                 date: moment(rawDate, 'M/DD/YY').toDate(),
                 newCases: totalCases - lastRecord.totalCases,
@@ -94,9 +99,13 @@ const addVaccineDataToRecord = (baseRecord, vaccineTimeline) => {
 const downloadHistoricalDataWorld = async () => {
     logger.debug('Attempting to download Disease.sh data on world historical stats');
     try {
+        const options = {
+            retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
+            minTimeout: process.env.DOWNLOAD_RETRY_WAIT
+        };
         const lastDays = moment().diff(oldestDate, 'days');
-        const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`);
-        const vaccineRes = await axios.get(`${BASE_URL}${VACCINE_URI}?lastdays=${lastDays}`);
+        const historicalRes = await attempt(() => axios.get(`${BASE_URL}${HISTORICAL_URI}/all?lastdays=${lastDays}`), options);
+        const vaccineRes = await attempt(() => axios.get(`${BASE_URL}${VACCINE_URI}?lastdays=${lastDays}`), options);
 
         const caseEntries = Object.entries(historicalRes.data.cases);
         const deathEntries = Object.entries(historicalRes.data.deaths);
@@ -108,16 +117,20 @@ const downloadHistoricalDataWorld = async () => {
     }
 };
 
-const downloadHistoricalDataCountry = async (countryName) => {
+const downloadHistoricalDataCountry = async (countryName, population) => {
     logger.debug(`Attempting to download Disease.sh data on historical stats for country ${countryName}`);
     try {
+        const options = {
+            retries: process.env.DOWNLOAD_RETRY_ATTEMPTS,
+            minTimeout: process.env.DOWNLOAD_RETRY_WAIT
+        };
         const lastDays = moment().diff(oldestDate, 'days');
-        const historicalRes = await axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`);
-        const vaccineRes = await axios.get(`${BASE_URL}${VACCINE_URI}/countries/${countryName}?lastdays=${lastDays}`);
+        const historicalRes = await attempt(() => axios.get(`${BASE_URL}${HISTORICAL_URI}/${countryName}?lastdays=${lastDays}`), options);
+        const vaccineRes = await attempt(() => axios.get(`${BASE_URL}${VACCINE_URI}/countries/${countryName}?lastdays=${lastDays}`), options);
 
         const caseEntries = Object.entries(historicalRes.data.timeline.cases);
         const deathEntries = Object.entries(historicalRes.data.timeline.deaths);
-        const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName);
+        const countryHistoryData = formatHistoricalData(caseEntries, deathEntries, countryName, population);
 
         return countryHistoryData.map((record) => addVaccineDataToRecord(record, vaccineRes.data.timeline));
     } catch (ex) {
