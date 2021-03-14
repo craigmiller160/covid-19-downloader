@@ -52,6 +52,7 @@ const {
     addPopulationData,
     splitStateData
 } = require('./stateDataCalculations');
+const states = require('../utils/states');
 
 const handleWorldData = async () => {
     try {
@@ -104,7 +105,12 @@ const handleStateData = async () => {
 
         const states = createStateList(covidProjData.data);
         const stateHistoricalData = addPopulationData(calculateDoubling(calculateHistoricalTotals(covidProjData.data)), censusData.data);
-        splitStateData(stateHistoricalData);
+        const stateCompareData = splitStateData(stateHistoricalData)
+            .map((stateData) => calculateRangeData(stateData))
+            .map((record) => ({
+                ...record,
+                displayLocation: states[record.location]
+            }));
 
         logger.info('Writing state data to MongoDB');
 
