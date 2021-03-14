@@ -15,9 +15,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+const states = require('../utils/states');
 
 const addPopulationData = (stateHistoricalData, censusData) => {
-    // TODO finish this
+    return stateHistoricalData.map((record) => {
+        const displayLocation = states[record.location];
+        const match = censusData.find((popRecord) => popRecord.displayLocation === displayLocation);
+        return {
+            ...record,
+            population: match?.population
+        };
+    });
 };
 
 module.exports = {
