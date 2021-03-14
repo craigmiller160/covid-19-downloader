@@ -53,7 +53,7 @@ const {
     addPopulationData,
     splitStateData
 } = require('./stateDataCalculations');
-const states = require('../utils/states');
+const staticStateList = require('../utils/states');
 
 const handleWorldData = async () => {
     try {
@@ -110,7 +110,7 @@ const handleStateData = async () => {
             .map((stateData) => calculateRangeData(stateData))
             .map((record) => ({
                 ...record,
-                displayLocation: states[record.location]
+                displayLocation: staticStateList[record.location]
             }));
 
         logger.info('Writing state data to MongoDB');
