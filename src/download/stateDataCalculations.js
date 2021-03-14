@@ -29,7 +29,16 @@ const addPopulationData = (stateHistoricalData, censusData) => {
 };
 
 const splitStateData = (stateHistoricalData) => {
-    // TODO finish this
+    const separatedData = stateHistoricalData.reduce((acc, record) => {
+        return {
+            ...acc,
+            [record.location]: [
+                ...(acc[record.location] || []),
+                record
+            ]
+        };
+    }, {});
+    return Object.values(separatedData);
 };
 
 module.exports = {

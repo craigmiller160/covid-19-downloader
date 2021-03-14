@@ -49,7 +49,8 @@ const {
     downloadHistoricalDataWorld
 } = require('./downloadDiseaseShData');
 const {
-    addPopulationData
+    addPopulationData,
+    splitStateData
 } = require('./stateDataCalculations');
 
 const handleWorldData = async () => {
@@ -103,6 +104,7 @@ const handleStateData = async () => {
 
         const states = createStateList(covidProjData.data);
         const stateHistoricalData = addPopulationData(calculateDoubling(calculateHistoricalTotals(covidProjData.data)), censusData.data);
+        splitStateData(stateHistoricalData);
 
         logger.info('Writing state data to MongoDB');
 

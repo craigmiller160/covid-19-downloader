@@ -18,7 +18,8 @@
 
 const moment = require('moment');
 const {
-    addPopulationData
+    addPopulationData,
+    splitStateData
 } = require('../../src/download/stateDataCalculations');
 
 const censusData = [
@@ -80,7 +81,34 @@ const expectedWithPop = [
         totalCases: 400,
         population: 2000
     }
-]
+];
+
+const separatedData = [
+    [
+        {
+            location: 'AK',
+            date: moment('2020-01-01').toDate(),
+            totalCases: 100
+        },
+        {
+            location: 'AK',
+            date: moment('2020-01-02').toDate(),
+            totalCases: 200
+        }
+    ],
+    [
+        {
+            location: 'AL',
+            date: moment('2020-01-01').toDate(),
+            totalCases: 300
+        },
+        {
+            location: 'AL',
+            date: moment('2020-01-02').toDate(),
+            totalCases: 400
+        }
+    ]
+];
 
 describe('stateDataCalculations', () => {
     it('addPopulationData', () => {
@@ -89,6 +117,7 @@ describe('stateDataCalculations', () => {
     });
 
     it('splitStateData', () => {
-        throw new Error();
+        const result = splitStateData(historyData);
+        expect(result).toEqual(separatedData);
     });
 });
